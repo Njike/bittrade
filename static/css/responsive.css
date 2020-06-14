@@ -1,0 +1,347 @@
+@charset "utf-8";
+/* CSS Document */
+
+/***************************************************responsive********************************************************/
+
+@media only screen and (max-width: 1200px) {
+  .navbar-active-overlay {
+    display: none;
+  }
+
+  .header_menu .navbar-inverse .navbar-nav>li>a {
+    padding: 31px 20px;
+  }
+
+  .site_stats ul li h4 {
+    height: 170px;
+    padding: 25px 0;
+    width: 170px;
+  }
+
+  .banner_content h2>span {
+    font-size: 40px;
+  }
+
+  .plan_box h4 {
+    font-size: 30px;
+  }
+
+  .plan_box ul li span {
+    font-size: 18px;
+  }
+
+  .index_about_content h4,
+  .index_about_content h6 {
+    font-size: 18px;
+  }
+
+  .progress_bar .progress {
+    width: 82%;
+  }
+
+  .about_top_content h4 {
+    font-size: 18px;
+  }
+
+  .form_body_content h2>span {
+    font-size: 38px;
+  }
+
+  .form_body_content h2>span {
+    font-size: 32px;
+  }
+
+  .login_content {
+    padding-top: 15px;
+  }
+
+  .contact_info li {
+    width: 100%;
+    color: #312152;
+  }
+
+
+}
+
+@media only screen and (max-width: 991px) {
+  .header_top {
+    text-align: center;
+  }
+
+  .header_top_right {
+    text-align: center;
+  }
+
+  .header_menu .navbar-inverse .navbar-nav>li>a {
+    padding: 31px 8px;
+    font-size: 12px;
+  }
+
+  .index_banner_slider {
+    padding-top: 0;
+    padding-bottom: 20px;
+  }
+
+  .site_stats ul li {
+    width: 25%;
+  }
+
+  .banner_content {
+    padding: 0 20px;
+    text-align: center;
+  }
+
+  .plan_box {
+    margin: 10px 0;
+  }
+
+  .progress_bar .progress {
+    width: 90%;
+  }
+
+  .register_section {
+    text-align: center;
+    padding: 30px 0;
+  }
+
+  .register_section_right {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .referral_section {
+    text-align: center;
+    width: 100%;
+  }
+
+  .referral_left {
+    margin-bottom: 30px;
+  }
+
+  .footer_inner {
+    margin-bottom: 20px;
+  }
+
+  .form_body_content {
+    padding-top: 0;
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .form_body {
+    padding: 60px 0;
+  }
+
+  .contact_info li {
+    color: #312152;
+    text-align: left;
+    width: 50%;
+  }
+
+
+}
+
+@media only screen and (max-width: 767px) {
+  .header_menu .navbar-toggle {
+    margin: 9px 0;
+    border: 0;
+    background: #943750;
+    border-radius: 0;
+  }
+
+  .header_menu .navbar-inverse .navbar-toggle:hover,
+  .header_menu .navbar-inverse .navbar-toggle:focus {
+    background: #312152;
+  }
+
+  .header_menu .navbar-inverse .navbar-toggle:hover .icon-bar,
+  .header_menu .navbar-inverse .navbar-toggle:focus .icon-bar {
+    background-color: #ffa1b9;
+  }
+
+  .header_menu .navbar-inverse .navbar-nav>li>a {
+    font-size: 12px;
+    padding: 10px 8px;
+  }
+
+  .site_stats ul li h4 {
+    height: auto;
+    width: auto;
+    max-width: 230px;
+  }
+
+  .site_stats ul li {
+    width: 50%;
+    padding: 5px;
+  }
+
+  .banner_content h2>span {
+    font-size: 28px;
+  }
+
+  .banner_content h2 {
+    line-height: 40px;
+  }
+
+  .index_banner {
+    padding: 70px 0;
+  }
+
+  .main_title h2 {
+    font-size: 22px;
+  }
+
+  .register_section_left h2 {
+    font-size: 25px;
+    line-height: 40px;
+  }
+
+  .profit_block {
+    background: url(../images/feature_icon_1.png) no-repeat 110% center, #fff;
+  }
+
+  .usage_block {
+    background: url(../images/feature_icon_2.png) no-repeat 110% center, #fff;
+  }
+
+  .price_block {
+    background: url(../images/feature_icon_3.png) no-repeat 110% center, #fff;
+  }
+
+  .support_block {
+    background: url(../images/feature_icon_4.png) no-repeat 110% center, #fff;
+  }
+
+  .dashboard_block {
+    background: url(../images/feature_icon_5.png) no-repeat 110% center, #fff;
+  }
+
+  .protect_block {
+    background: url(../images/feature_icon_6.png) no-repeat 110% center, #fff;
+  }
+
+  .referral_right ul {
+    width: 100%;
+  }
+
+  .referral_right a {
+    float: none;
+    margin: 0 0 20px;
+  }
+
+  .footer_links {
+    margin-bottom: 30px;
+  }
+
+  footer {
+    text-align: center;
+  }
+
+
+}
+
+@media only screen and (max-width:600px) {
+  .progress_bar .progress {
+    width: 85%;
+  }
+
+  .login_content p {
+    color: #000;
+  }
+
+  .contact_info li {
+    color: #312152;
+    text-align: center;
+    width: 100%;
+  }
+
+}
+
+@media only screen and (max-width: 520px) {
+  .banner_content>span>a {
+    margin: 5px;
+  }
+
+  .plan_section .col-xs-6 {
+    width: 100%;
+  }
+
+  .register_section_left h2 {
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 35px;
+  }
+
+  .referral_right ul li {
+    width: 100%;
+  }
+
+  .inner_page_title h2 {
+    font-size: 30px;
+  }
+
+  .accordion-toggle::before,
+  .accordion-toggle.active::after {
+    display: none;
+    content: "";
+  }
+
+}
+
+
+
+
+
+@media only screen and (max-width: 420px) {
+  .header_top_right ul li {
+    padding: 4px 18px;
+  }
+
+  .progress_bar .progress {
+    width: 80%;
+  }
+
+  .form_page_header {
+    text-align: center;
+  }
+
+  .form_page_header .col-xs-6 {
+    width: 100%;
+  }
+
+  .go_to {
+    text-align: center;
+  }
+
+  .form_body_content>span>a {
+    margin: 5px;
+  }
+
+  .form_body_content h2 {
+    line-height: 35px;
+  }
+
+}
+
+@media only screen and (max-width: 360px) {
+  .site_stats ul li {
+    width: 100%;
+  }
+
+  .progress_bar .progress {
+    width: 75%;
+  }
+
+  .footer_top .col-xs-6 {
+    width: 100%;
+  }
+
+  .check_box span a {
+    float: none;
+    margin: 10px 0 0;
+  }
+
+
+}
+
+@media only screen and (max-width: 320px) {}

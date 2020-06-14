@@ -1,0 +1,484 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+
+          <section class="index_banner">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-12 col-lg-7">
+                          <div class="index_banner_slider">
+                              <div id="bootstrap-touch-slider" class="carousel slide fade control-round indicators-line"
+                                  data-ride="carousel" data-pause="hover" data-interval="5000">
+                                  <ol class="carousel-indicators d-flex flex-column">
+                                      <li data-target="#bootstrap-touch-slider" data-slide-to="0" class="active"></li>
+                                      <li data-target="#bootstrap-touch-slider" data-slide-to="1"></li>
+                                      <li data-target="#bootstrap-touch-slider" data-slide-to="2"></li>
+                                  </ol>
+                                  <div class="carousel-inner" role="listbox">
+
+                                        <div class="carousel-item active">
+                                                <div class="slide-text slide_style_left">
+                                                    <div class="banner_content">
+                                                        {% if sliders %}
+                                                        <h2 data-animation="animated bounceInLeft"><small>{{sliders[0].sub_title}}</small>
+                                                            <span>{{sliders[0].title|safe}}</span></h2>
+                                                        <p>{{sliders[0].description}}</p>
+                                                        <span>
+                                                            <a href="{{ url_for('login') }}" class="btn btn-primary" data-interval="100"
+                                                                data-animation="animated bounceInLeft">Invest Now</a>
+      
+      
+      
+      
+                                                            <a href="{{ url_for('register') }}" class="btn btn-secondary"
+                                                                data-interval="200"
+                                                                data-animation="animated bounceInUp">Register Now</a>
+      
+                                                            {% endif %}
+      
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                      {% for i in range(1,sliders|length) %}
+                                      <div class="carousel-item">
+                                          <div class="slide-text slide_style_left">
+                                              <div class="banner_content">
+                                                  <h2 data-animation="animated bounceInLeft"><small>{{sliders[i].sub_title}}</small>
+                                                      <span>{{sliders[i].title|safe}}</span></h2>
+                                                  <p>{{sliders[i].description}}</p>
+                                                  <span>
+                                                      <a href="{{ url_for('login') }}" class="btn btn-primary" data-interval="100"
+                                                          data-animation="animated bounceInLeft">Invest Now</a>
+
+
+
+
+                                                      <a href="{{ url_for('register') }}" class="btn btn-secondary"
+                                                          data-interval="200"
+                                                          data-animation="animated bounceInUp">Register Now</a>
+
+
+
+                                                  </span>
+                                              </div>
+                                          </div>
+                                      </div>
+                                    {% endfor %}
+
+
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-12 col-lg-5">
+                          <div class="site_stats">
+                              <ul class="row justify-content-center no-gutters">
+                                  <li class="col-12 col-md-6">
+                                      <h4><span>running days</span><img src="{{ url_for('static', filename='images/stats_icon_1.png') }}" alt="stats_icon"
+                                              class="img-fluid" />
+                                          <b>10</b></h4>
+                                  </li>
+                                  <li class="col-12 col-md-6">
+                                      <h4><span>Visitors online</span><img src="{{ url_for('static', filename='images/stats_icon_2.png') }}"
+                                              alt="stats_icon" class="img-fluid" />
+                                          <b>
+                                              <script>
+                                                  function randomNumber(min, max) {
+                                                      return Math.floor(Math.random() * (max - min) + min);
+                                                  }
+                                                  document.write(randomNumber(1, 9));
+                                                  var check = randomNumber(1, 9);
+
+                                                  document.write(check);
+                                              </script>
+                                          </b></h4>
+                                  </li>
+                                  <li class="col-12 col-md-6">
+                                      <h4><span>Total accounts</span><img src="{{ url_for('static', filename='images/stats_icon_3.png') }}" alt="stats_icon"
+                                              class="img-fluid" />
+                                          <b>2184</b></h4>
+                                  </li>
+                                  <li class="col-12 col-md-6">
+                                      <h4><span>Started</span><img src="{{ url_for('static', filename='images/stats_icon_4.png') }}" alt="stats_icon"
+                                              class="img-fluid" />
+                                          <b>
+                                              <font size="4">May 22, 2020</font>
+                                          </b></h4>
+                                  </li>
+                              </ul>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+
+          <section class="middle_body">
+              <div class="container">
+                  <div class="plan_section">
+
+                      <!--  
+<script language="javascript">
+
+function openCalculator(id)
+{
+
+  w = 225; h = 400;
+  t = (screen.height-h-30)/2;
+  l = (screen.width-w-30)/2;
+  window.open('?a=calendar&type=' + id, 'calculator' + id, "top="+t+",left="+l+",width="+w+",height="+h+",resizable=1,scrollbars=0");
+
+
+  
+
+}
+
+function updateCompound() {
+  var id = 0;
+  var tt = document.spendform.h_id.type;
+  if (tt && tt.toLowerCase() == 'hidden') {
+    id = document.spendform.h_id.value;
+  } else {
+    for (i = 0; i < document.spendform.h_id.length; i++) {
+      if (document.spendform.h_id[i].checked) {
+        id = document.spendform.h_id[i].value;
+      }
+    }
+  }
+
+  var cpObj = document.getElementById('compound_percents');
+  if (cpObj) {
+    while (cpObj.options.length != 0) {
+      cpObj.options[0] = null;
+    }
+  }
+
+  if (cps[id] && cps[id].length > 0) {
+    document.getElementById('coumpond_block').style.display = '';
+
+    for (i in cps[id]) {
+      cpObj.options[cpObj.options.length] = new Option(cps[id][i]);
+    }
+  } else {
+    document.getElementById('coumpond_block').style.display = 'none';
+  }
+}
+var cps = {};
+ 
+
+</script>
+-->
+
+
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="main_title text-center">
+                                  <h2 class="blue_text">Bittrade.com Give You Best Price</h2>
+
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+
+
+                        {% with i = 1 %}
+                            {% for j in range(plans|length) %}
+                                
+
+
+                                <div class="col-lg-3 col-sm-6 col-xs-6">
+                                        <div class="plan_box">
+        
+        
+                                            <h5>
+        
+        
+                                                    {{plans[j].name}}
+                                            </h5>
+        
+        
+        
+                                            <img src="{{ url_for('static', filename='images/plan_icon_' + (i+j)|string + '.png') }}" alt="plan_icon" class="img-fluid" />
+                                            <h4>{{plans[j].description}}</h4>
+                                            <ul>
+        
+        
+        
+        
+        
+        
+                                                <!-- Profit (%)-->
+        
+        
+                                                <li>
+                                                    <!--Plan 1-->
+                                                    ${{plans[j].min_depositable}} - ${{plans[j].max_depositable}}
+                                                    <span>Min - Max</span></li>
+        
+        
+        
+        
+        
+                                            </ul>
+        
+        
+        
+        
+        
+        
+        
+                                            <a class="btn btn-default" href="javascript:openCalculator('{{i + j}}')">Calculate</a>
+        
+        
+                                            <script>
+                                                // cps[1] = ;
+                                            </script>
+        
+        
+                                        </div>
+                                    </div>
+        
+                            {% endfor %}
+                        {% endwith %}
+
+                          
+
+
+
+
+
+
+
+
+                      </div>
+                  </div>
+                  <div class="about_section">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="main_title text-center">
+
+          </section>
+
+          <section class="register_section">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-8">
+                          <div class="register_section_left">
+                              <h2>Ready to join with Bittrade.com? <br />Register Today.</h2>
+                          </div>
+                      </div>
+                      <div class="col-md-4 d-flex align-items-center">
+                          <div class="register_section_right">
+                              <a href="{{ url_for('register') }}" class="btn btn-default">Register Now</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+
+          <section class="bottom_body">
+              <div class="container">
+                  <div class="features_section">
+                      <div class="row">
+                          <div class="col-md-12">
+                              <div class="main_title text-center">
+                                  <h2 class="blue_text">Checkout our features</h2>
+
+                              </div>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-11 col-lg-offset-1">
+                              <div class="features_content">
+                                  <div class="row">
+                                      <div class="col-md-4 col-sm-6">
+                                          <div class="features_block profit_block">
+                                              <h5>Large profits</h5>
+                                              <p>our daily earnings depend solely on the size of your deposits, the .
+                                              </p>
+                                              <a href="{{ url_for('about') }}">Read More</a>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-4 col-sm-6">
+                                          <div class="features_block usage_block">
+                                              <h5>INSTANT PAYMENTS</h5>
+                                              <p>When your balance reaches the amount of 0.30 USD, you can use the.</p>
+                                              <a href="{{ url_for('about') }}">Read More</a>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-4 col-sm-6">
+                                          <div class="features_block price_block">
+                                              <h5>PARTNER PROGRAM</h5>
+                                              <p>Our one-level partnership program is an excellent instrument for.</p>
+                                              <a href="{{ url_for('about') }}">Read More</a>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-4 col-sm-6">
+                                          <div class="features_block support_block">
+                                              <h5>fast support</h5>
+                                              <p>You can get a full-fledged consultation and the necessary .</p>
+                                              <a href="{{ url_for('support') }}">Read More</a>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-4 col-sm-6">
+                                          <div class="features_block dashboard_block">
+                                              <h5>live dashboard</h5>
+                                              <p>Our live dashboard allow you to manage your account easily. All the.
+                                              </p>
+                                              <a href="{{ url_for('about') }}">Read More</a>
+                                          </div>
+                                      </div>
+                                      <div class="col-md-4 col-sm-6">
+                                          <div class="features_block protect_block">
+                                              <h5>ddos protection</h5>
+                                              <p>Our clients data, as well as transaction history, is kept strictly.</p>
+                                              <a href="{{ url_for('about') }}">Read More</a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+          </section>
+
+
+          <section class="register_section">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-6">
+
+
+                          <div class="deposit_withdraw">
+                              <div style="width: 100%;overflow: hidden;" class="deposit_part">
+                                  <div class="invest-head">
+                                  </div>
+                                  <div class="invest-text">
+                                      <p>Last Deposit</p>
+                                  </div>
+                                  <div class="state-all-">
+                                    {% for deposit in deposits %}
+                                      <div class="state-one-">
+                                          <div class="state-name">
+                                              <p>{{deposit.username}}</p>
+                                          </div>
+                                          <div class="state-by">
+                                              <img src="{{ url_for('get_upload', filename=deposit.cryptocurrency.image_url) }}">
+                                          </div>
+                                          <div class="invest-amount">
+                                              <p>${{deposit.amount}}</p>
+                                          </div>
+                                      </div>
+                                    {% endfor %}
+
+
+                                  </div>
+                              </div>
+
+
+                          </div>
+                      </div>
+
+
+
+                      <div class="col-md-6">
+
+
+                          <div style="width: 100%;overflow: hidden;" class="withdraw_part">
+                              <div class="invest-head">
+                              </div>
+                              <div class="invest-text">
+                                  <p>Last Withdraw</p>
+                              </div>
+                              <div class="state-all-">
+                                    {% for withdrawal in withdrawals %}
+                                    <div class="state-one-">
+                                        <div class="state-name">
+                                            <p>{{withdrawal.username}}</p>
+                                        </div>
+                                        <div class="state-by">
+                                            <img src="{{ url_for('get_upload', filename=withdrawal.cryptocurrency.image_url) }}">
+                                        </div>
+                                        <div class="invest-amount">
+                                            <p>${{withdrawal.amount}}</p>
+                                        </div>
+                                    </div>
+                                  {% endfor %}
+                                  
+                                  <!----
+					<div class="state-one-">
+                           <div class="state-name">
+                               <p>USERNAME</p>
+                           </div>
+                           <div class="state-by">
+                               <img src="images/431.png">
+                           </div>
+                          <div class="invest-amount">
+                              <p>$</p>
+                          </div>
+                       </div>---->
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+
+
+          <section class="bottom_body">
+              <div class="container">
+                  <div class="referral_section" style="    margin-top: 50px;">
+                      <div class="row">
+                          <div class="col-lg-4 col-md-3">
+                              <div class="referral_left">
+                                  <img src="{{ url_for('static', filename='images/referral_chain.png') }}" alt="referral_chain" class="img-fluid" />
+                              </div>
+                          </div>
+                          <div class="col-lg-8 col-md-9">
+                              <div class="referral_right">
+
+                                  <h5>Referral Commissions
+                                      <span>We offering 3 level referral commissions for everyone</span></h5>
+
+
+
+                                  <a href="{{ url_for('register') }}" class="btn btn-primary">Invest Now</a>
+
+
+
+
+
+
+                                  <ul>
+                                      <li>1st Level <span>5%</span></li>
+                                      <li>2nd Level <span>2%</span></li>
+                                      <li>3rd Level <span>1%</span></li>
+                                  </ul>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
+
+          <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ee3f76f9e5f69442290776f/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
+
+
+          {% endblock %}
+
+          
+          https://tradingoption247.comhttps://tradingoption247.com

@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+          <section class="inner_top_banner">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-12">
+
+                          <div class="inner_page_title">
+                              <h2>faq</h2>
+                              <ul class="breadcrumb">
+                                  <li><a href="{{ url_for('index') }}">Home</a></li>
+                                  <li>faq</li>
+                              </ul>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </section>
+
+
+
+          <section class="middle_body common">
+              <div class="container">
+
+
+
+
+
+
+
+
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="main_title text-center">
+                              <h2 class="crimson_text">Frequently Asked Questions</h2>
+
+                          </div>
+                      </div>
+                  </div>
+
+
+
+                  <div class="row">
+
+                      <div class="faq_page">
+
+
+
+                          <div class="accordion">
+
+
+
+                              <div class="col-md-12">
+
+                                {% for question in questions %}
+                                  <h4 class="accordion-toggle">{{question.question}}</h4>
+                                  <div class="accordion-content">
+                                      <p>{{question.answer}}</p>
+                                  </div>
+                                  {% endfor %}
+                                  
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+
+
+              </div>
+          </section>
+
+
+
+         {% endblock %}

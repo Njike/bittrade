@@ -1,0 +1,347 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+        <section class="form_body">
+            <div class="container">
+                <div class="row">
+
+
+                    <div class="row">
+                        <div class="col-lg-6 col-md-5">
+                            <div class="form_body_content">
+                                <h2><small>Create new account</small>
+                                    <span>Be a <b>member</b> with us</span></h2>
+                                <p>Please fill in all the required fields of the application form on the Sign up page.
+                                    Submit your registration by clicking the button 'Register'.</p>
+                                <span>
+                                    <a href="{{ url_for('login') }}" class="btn btn-primary">Signin</a>
+                                    <a href="{{ url_for('support') }}" class="btn btn-secondary">Go to Support <i
+                                            class="fa fa-angle-double-right"></i></a>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-7">
+                            <div class="form_block">
+                                <h4>Signup to Continue</h4>
+
+                                <div class="form_block_inner">
+                                    <div class="row">
+
+
+
+
+
+
+
+
+
+
+                                        <script language=javascript>
+                                            function checkform() {
+                                                if (document.regform.firstname.value == '') {
+                                                    $('.error-initial').text("Please enter your full name!");
+                                                    document.regform.fullname.focus();
+                                                    return false;
+                                                }
+
+                                                if (document.regform.lastname.value == '') {
+                                                    $('.error-initial').text("Please enter your full name!");
+                                                    document.regform.fullname.focus();
+                                                    return false;
+                                                }
+
+                                                if (document.regform.username.value == '') {
+                                                    $('.error-initial').text("Please enter your username!");
+                                                    document.regform.username.focus();
+                                                    return false;
+                                                }
+                                                if (document.regform.password1.value == '') {
+                                                    $('.error-initial').text("Please enter your password!");
+                                                    document.regform.password.focus();
+                                                    return false;
+                                                }
+                                                if (document.regform.password1.value != document.regform.password2
+                                                    .value) {
+                                                    $('.error-initial').text("Password do not match");
+                                                    document.regform.password2.focus();
+                                                    return false;
+                                                }
+
+
+                                                if (document.regform.email.value == '') {
+                                                    $('.error-initial').text("Please enter your e-mail address!");
+                                                    document.regform.email.focus();
+                                                    return false;
+                                                }
+                                                // if (document.regform.email.value != document.regform.email1.value) {
+                                                //     $('.error-initial').text("Email do not match");
+                                                //     document.regform.email.focus();
+                                                //     return false;
+                                                // }
+                                                if (document.regform.agree.checked == false) {
+                                                    $('.error-initial').text(
+                                                        "You have to agree with the Terms and Conditions!");
+                                                    return false;
+                                                }
+                                                return true;
+                                            }
+
+                                            function IsNumeric(sText) {
+                                                var ValidChars = "0123456789";
+                                                var IsNumber = true;
+                                                var Char;
+                                                if (sText == '') return false;
+                                                for (i = 0; i < sText.length && IsNumber == true; i++) {
+                                                    Char = sText.charAt(i);
+                                                    if (ValidChars.indexOf(Char) == -1) {
+                                                        IsNumber = false;
+                                                    }
+                                                }
+                                                return IsNumber;
+                                            }
+                                        </script>
+
+                                        {% include "includes/_message.html" %}
+                                        <style>
+                                        
+                                            .alert{
+                                                margin: auto !important;
+                                            }
+                                        </style>
+                                        
+                                        <form class="w-100" method=post onsubmit="return checkform()" name="regform" style="">
+                                            {{ form.hidden_tag() }}
+                                            <input type=hidden name=a value="signup">
+                                            <input type=hidden name=action value="signup">
+                                            <div class="error-initial"></div>
+
+                                            <div class="form-group">
+                                                <div class="form_box">
+                                                    {{form.firstname.label(class="form-control-label")}}
+
+                                                    {% if form.firstname.errors %}
+                                                        {{form.firstname(class="form-control is-invalid")}}  
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.firstname.errors %}
+                                                                <span>{{error}}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{form.firstname(class="form-control")}}    
+                                                    {% endif %}
+
+                                                  
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                    <div class="form_box">
+                                                        {{form.lastname.label(class="form-control-label")}}
+                                                        {% if form.lastname.errors %}
+                                                        {{form.lastname(class="form-control is-invalid")}}  
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.lastname.errors %}
+                                                                <span>{{error}}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{form.lastname(class="form-control")}}    
+                                                    {% endif %}
+                                                    </div>
+                                                </div>
+
+
+
+                                            <div class="form-group">
+                                                <div class="form_box">
+
+                                                        {{form.username.label(class="form-control-label")}}
+                                                        {% if form.username.errors %}
+                                                        {{form.username(class="form-control is-invalid")}}  
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.username.errors %}
+                                                                <span>{{error}}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{form.username(class="form-control")}}    
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="form_box">
+
+                                                        {{form.password1.label(class="form-control-label")}}
+                                                        {% if form.password1.errors %}
+                                                        {{form.password1(class="form-control is-invalid")}}  
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.password1.errors %}
+                                                                <span>{{error}}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{form.password1(class="form-control")}}    
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="form-group">
+                                                <div class="form_box">
+
+                                                        {{form.password2.label(class="form-control-label")}}
+                                                        {% if form.password2.errors %}
+                                                        {{form.password2(class="form-control is-invalid")}}  
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.password2.errors %}
+                                                                <span>{{error}}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{form.password2(class="form-control")}}    
+                                                    {% endif %}
+
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+                                            <div class="form-group">
+                                                <div class="form_box">
+                                                        {{form.email.label(class="form-control-label")}}
+                                                        {% if form.email.errors %}
+                                                        {{form.email(class="form-control is-invalid")}}  
+                                                        <div class="invalid-feedback">
+                                                            {% for error in form.email.errors %}
+                                                                <span>{{error}}</span>
+                                                            {% endfor %}
+                                                        </div>
+                                                    {% else %}
+                                                        {{form.email(class="form-control")}}    
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+
+                                          
+
+
+
+
+
+
+
+                                            <!-- <div class="form-group">
+                                                <div class="form_box">
+                                                    <label>Your PerfectMoney Account</label>
+                                                    <input autocomplete="off" class="form-control" type=text
+                                                        size=30 name=pay_account[18] value="">
+
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="form-group">
+                                                <div class="form_box">
+                                                    <label>Crypto Curremcy</label>
+                                                    <select name="currency" id="currency" class="form-control">
+                                                        {% for currency in cryptocurrency %}
+                                                        <option value="{{currency.id}}">{{currency.code}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                
+
+                                                </div>
+                                            </div> -->
+
+
+
+
+                                            <!-- <div class="form-group">
+                                                <div class="form_box">
+                                                    <label>Secret question</label>
+                                                    <input autocomplete="off" class="form-control" type=text name=sq
+                                                        value="" size=30>
+
+                                                </div>
+                                            </div> -->
+                                            <!-- <div class="form-group">
+                                                <div class="form_box">
+
+                                                    <label>Secret answer</label>
+                                                    <input autocomplete="off" class="form-control" type=text name=sa
+                                                        value="" size=30>
+
+                                                </div>
+                                            </div> -->
+                                            <!-- 
+
+                                            <div class="col-sm-12">
+                                                <div class="form_box">
+
+
+
+                                                    Your Upline:N/A
+
+                                                </div>
+                                            </div> -->
+
+
+
+
+                                            <div class="col-sm-12 mt-5">
+                                                <div class="form_box check_box">
+                                                    <span>
+                                                        
+                                                        {{form.agree}}
+                                                        I agree the <a href="{{ url_for('terms') }}"> Terms and
+                                                            conditions</a>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+                                            <div class="col-sm-12">
+                                                <div class="submit_btn d-flex justify-content-end mt-3">
+
+                                                    <input class="btn btn-primary" type=submit value="Register"
+                                                        class=sbmt>
+
+
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            </div>
+
+            </div>
+        </section>
+
+
+        {% endblock %}

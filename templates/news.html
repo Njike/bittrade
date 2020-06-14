@@ -1,0 +1,92 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+          <section class="inner_top_banner">
+              <div class="container">
+                  <div class="row">
+                      <div class="col-md-12">
+
+                          <div class="inner_page_title">
+                              <h2>news</h2>
+                              <ul class="breadcrumb">
+                                  <li><a href="{{ url_for('index') }}">Home</a></li>
+                                  <li>news</li>
+                              </ul>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </section>
+
+
+
+          <section class="middle_body common">
+              <div class="container">
+
+
+
+
+
+
+
+
+
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="main_title text-center">
+                              <h2 class="crimson_text">Latest News</h2>
+
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row">
+                      <div class="col-md-12">
+
+                          <div class="news_page">
+
+                              <div class="accordion">
+
+                                  <table cellspacing=1 cellpadding=2 border=0 width=100%>
+                                      <tr>
+                                          <td colspan=3 align=center>
+                                              <p>No news found</p>
+                                          </td>
+                                      </tr>
+                                  </table>
+
+
+
+
+                              </div>
+
+                          </div>
+
+                      </div>
+                  </div>
+
+
+                  <div class="row">
+                      <div class="col-xs-12">
+                          <nav aria-label="Page navigation example">
+                              <ul class="pagination center_pagination">
+
+                              </ul>
+
+
+                          </nav>
+                      </div>
+
+                  </div>
+
+
+
+              </div>
+          </section>
+
+
+
+          {% endblock %}

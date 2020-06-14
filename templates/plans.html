@@ -1,0 +1,188 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+      <section class="inner_top_banner">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+
+              <div class="inner_page_title">
+                <h2>plans</h2>
+                <ul class="breadcrumb">
+                  <li><a href="{{ url_for('index') }}">Home</a></li>
+                  <li>plans</li>
+                </ul>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+      <section class="middle_body common">
+        <div class="container">
+
+
+
+
+
+
+
+
+          <p align=justify
+            style="box-shadow: 0 0 0 5px rgba(255,255,255,0.6); border-radius: 10px; background: rgba(255,255,255,0.6);">
+
+
+
+            <section class="middle_body">
+              <div class="container">
+                <div class="plan_section">
+
+
+                  <script language="javascript">
+                    <!--
+                    function openCalculator(id) {
+
+                      w = 225;
+                      h = 400;
+                      t = (screen.height - h - 30) / 2;
+                      l = (screen.width - w - 30) / 2;
+                      window.open('?a=calendar&type=' + id, 'calculator' + id, "top=" + t + ",left=" + l + ",width=" +
+                        w + ",height=" + h + ",resizable=1,scrollbars=0");
+
+
+
+
+                    }
+
+                    function updateCompound() {
+                      var id = 0;
+                      var tt = document.spendform.h_id.type;
+                      if (tt && tt.toLowerCase() == 'hidden') {
+                        id = document.spendform.h_id.value;
+                      } else {
+                        for (i = 0; i < document.spendform.h_id.length; i++) {
+                          if (document.spendform.h_id[i].checked) {
+                            id = document.spendform.h_id[i].value;
+                          }
+                        }
+                      }
+
+                      var cpObj = document.getElementById('compound_percents');
+                      if (cpObj) {
+                        while (cpObj.options.length != 0) {
+                          cpObj.options[0] = null;
+                        }
+                      }
+
+                      if (cps[id] && cps[id].length > 0) {
+                        document.getElementById('coumpond_block').style.display = '';
+
+                        for (i in cps[id]) {
+                          cpObj.options[cpObj.options.length] = new Option(cps[id][i]);
+                        }
+                      } else {
+                        document.getElementById('coumpond_block').style.display = 'none';
+                      }
+                    }
+                    var cps = {};
+                    -->
+                  </script>
+
+
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="main_title text-center">
+                        <h2 class="blue_text">INVESTMENT PLANS & PRICING</h2>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+
+                      
+                      {% with j = 1 %}
+                    {% for i in range(plans|length) %}
+
+                    <div class="col-md-3 col-sm-6 col-xs-6">
+                        <div class="plan_box">
+  
+  
+                          <h5>
+  
+  
+                            {{plans[i].name}}
+                          </h5>
+  
+  
+  
+                          <img src="{{ url_for('static', filename='images/plan_icon_' + (i+j)|string + '.png') }}" alt="plan_icon" class="img-responsive" />
+                          <h4>{{plans[i].description}}</h4>
+                          <ul>
+                           
+  
+  
+  
+  
+  
+                            <!-- Profit (%)-->
+  
+  
+                            <li>
+                              <!--Plan 1-->
+                              ${{plans[i].min_depositable}} - ${{plans[i].max_depositable}}
+                              <span>{{plans[i].percentage_bonus}}%</span></li>
+                            
+  
+  
+                    
+  
+  
+  
+                          </ul>
+  
+  
+  
+  
+  
+  
+  
+                          <a class="btn btn-default" href="javascript:openCalculator('{{i+j}}')">Calculate</a>
+  
+  
+                          <script>
+                          </script>
+  
+  
+                        </div>
+                      </div>
+                    {% endfor %}
+                    {% endwith %}
+                  
+
+
+                  </div>
+                </div>
+                <div class="about_section">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="main_title text-center">
+
+            </section>
+
+            <div><a href="{{ url_for('register') }}" target="">
+                <font size="4">Open an account and start earning!</font>
+              </a></div>
+
+
+          </p>
+        </div>
+      </section>
+
+
+      {% endblock %}

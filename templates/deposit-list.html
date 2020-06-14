@@ -1,0 +1,136 @@
+{% extends "layout2.html" %}
+
+{% block body %}
+
+
+
+
+                        <div class="admin_body_bottom">
+
+
+
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="tcu">
+                                        <h2>Total: ${{current_user.wallet.transaction[0].balance()}}</h2>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+                            {% for plan in plans %}
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table cellspacing="1" cellpadding="2" border="0" width="100%" class="line">
+                                        <tbody>
+                                            <tr class="hover">
+                                                <td class="item htd">
+                                                    
+                                                    <div class="table-responsive">
+                                                        <div class="deptab">
+                                                            <table cellspacing="1" cellpadding="2" border="0"
+                                                                width="100%">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td colspan="3" align="center"><b>{{plan.description}}</b></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <thead>
+                                                                    <tr class="table-head">
+                                                                        <th class="inheader">Plan</th>
+                                                                        <th class="inheader" width="200">Amount Spent
+                                                                            ($)</th>
+                                                                        <th class="inheader" width="100" nowrap="">
+                                                                            <nobr> Profit (%)</nobr>
+                                                                        </th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td class="item">{{plan.name}}</td>
+                                                                        <td class="item" align="right">${{plan.min_depositable}} - ${{plan.max_depositable}}
+                                                                        </td>
+                                                                        <td class="item" align="right">{{plan.percentage_bonus}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    {% if not plan.deposit %}
+                                                    <div class="table-responsive">
+                                                        <div class="deptab">
+                                                            <table cellspacing="1" cellpadding="2" border="0"
+                                                                width="100%">
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td colspan="4"><b>No deposits for this plan</b>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                    </div>
+                                                    {% else %}
+                                                    {% for transaction in current_user.wallet.transaction %}
+                                                    {% if transaction.is_deposit and transaction.deposit.plan %}
+                                                    <div class="table-responsive">
+                                                            <div class="deptab">
+                                                                <table cellspacing="1" cellpadding="2" border="0"
+                                                                    width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td colspan="8"><b>{{transaction.transaction_time}}</b>
+                                                                            </td>
+                                                                            <td width="200" class="item" align="right">${{transaction.deposit.amount}}
+                                                                                </td>
+                                                                                <td width="100" class="item" align="right">${{(transaction.deposit.amount * plan.percentage_bonus|float/100) + transaction.deposit.amount}}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+    
+                                                            </div>
+                                                        </div>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <br>
+                            {% endfor %}
+                            
+                            
+
+                        </div>
+
+
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {% endblock %}

@@ -1,0 +1,220 @@
+{% extends "layout.html" %}
+
+
+{% block body %}
+
+
+
+        <section class="form_body">
+            <div class="container">
+                <div class="row">
+
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form_body_content login_content">
+                            <h2><small>Call Us Now!</small>
+                                <span>Stay <b>Connect</b> with us</span></h2>
+                            <p>You can get a full-fledged consultation and the necessary information by contacting any
+                                regional representative or customer support on the website through a feedback form in
+                                your account, email or online chat.</p>
+                            <span>
+
+
+                                <a href="{{ url_for('register') }}" class="btn btn-primary">Register</a>
+
+
+                                <a href="{{ url_for('login') }}" class="btn btn-secondary">Go to Signin <i
+                                        class="fa fa-angle-double-right"></i></a>
+
+
+
+
+
+
+
+                            </span>
+                            <ul class="contact_info">
+                                <li><i class="fa fa-phone mr-2"></i><span class=""> {{site_detail.phone}}</span></li>
+                                <li><i class="fa fa-envelope mr-2"></i><span class=""> {{site_detail.email}}</span></li>
+                                <li><i class="fa fa-map-marker mr-2"></i><span class="">{{site_detail.address}}</span></li>
+                                <li><i class="fa fa-globe mr-2"></i> <span class="">{{site_detail.site}}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+
+
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="form_block">
+                            <h4 class="title">Mail to us</h4>
+
+
+
+                            <div class="form_block_inner">
+                                <div class="row">
+
+
+
+
+                                    <script language=javascript>
+                                        function checkform() {
+                                            if (document.mainform.name.value == '') {
+                                                $('.error-initial').text("Please enter your full name!");
+                                                document.mainform.name.focus();
+                                                return false;
+                                            }
+                                            if (document.mainform.email.value == '') {
+                                                $('.error-initial').text("Please enter your e-mail address!");
+                                                document.mainform.email.focus();
+                                                return false;
+                                            }
+                                            if (document.mainform.message.value == '') {
+                                                $('.error-initial').text("Please enter your message!");
+                                                document.mainform.message.focus();
+                                                return false;
+                                            }
+                                            return true;
+                                        }
+                                    </script>
+
+                                    <style>
+                                        .alert{
+                                            margin: auto !important;
+                                        }
+                                    </style>
+
+                                    {% include "includes/_message.html" %}
+                                    <form method=post name=mainform onsubmit="return checkform()" style="    display: flex;
+                                    flex-wrap: wrap; align-items: center;
+                                        justify-content: center;">
+                                        {{ form.hidden_tag() }}
+
+
+
+                                        <div class="error-initial"></div>
+
+
+
+
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+
+
+                                                {{form.name.label(class="form-control-label")}}
+                                                {% if form.name.errors %}
+                                                {{form.name(class="form-control is-invalid")}}  
+                                                <div class="invalid-feedback">
+                                                    {% for error in form.name.errors %}
+                                                        <span>{{error}}</span>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                {{form.name(class="form-control")}}    
+                                            {% endif %}
+
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+
+
+                                                {{form.email.label(class="form-control-label")}}
+                                                {% if form.email.errors %}
+                                                {{form.email(class="form-control is-invalid")}}  
+                                                <div class="invalid-feedback">
+                                                    {% for error in form.email.errors %}
+                                                        <span>{{error}}</span>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                {{form.email(class="form-control")}}    
+                                            {% endif %}
+
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+
+                                                {{form.subject.label(class="form-control-label")}}
+                                                {% if form.subject.errors %}
+                                                {{form.subject(class="form-control is-invalid")}}  
+                                                <div class="invalid-feedback">
+                                                    {% for error in form.subject.errors %}
+                                                        <span>{{error}}</span>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                {{form.subject(class="form-control")}}    
+                                            {% endif %}
+
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="col-sm-12">
+                                            <div class="form-group">
+
+                                                {{form.message.label(class="form-control-label")}}
+                                                {% if form.message.errors %}
+                                                {{form.message(class="form-control is-invalid")}}  
+                                                <div class="invalid-feedback">
+                                                    {% for error in form.message.errors %}
+                                                        <span>{{error}}</span>
+                                                    {% endfor %}
+                                                </div>
+                                            {% else %}
+                                                {{form.message(class="form-control",  cols="45", rows="4")}}      
+                                            {% endif %}
+
+                                                
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="col-sm-12">
+                                            <div class="submit_btn d-flex justify-content-end mt-4">
+
+                                                <input class="btn btn-primary" type="submit" value="Send" class="sbmt">
+
+
+                                            </div>
+                                        </div>
+
+
+
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+
+
+                </div>
+        </section>
+
+
+        {% endblock %}

@@ -1,0 +1,445 @@
+{% extends "layout1.html" %}
+
+{% block body %}
+                           
+
+
+                        </div>
+
+
+
+                        <div class="admin_body_bottom">
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="admin_title white_text text-left">Select Transaction :</h5>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <script language="javascript">
+                                function go(p) {
+                                    document.opts.page.value = p;
+                                    document.opts.submit();
+                                }
+                            </script>
+
+
+
+
+                            <form method="post" name="opts"><input type="hidden" name="form_id"
+                                    value="15918185099694"><input type="hidden" name="form_token"
+                                    value="efd5e4b6931caca93c2bed0526e65be9">
+                                <input type="hidden" name="a" value="earnings">
+                                <input type="hidden" name="page" value="1">
+
+
+
+                                <div class="select_transaction_box">
+
+
+                                    <div class="row">
+
+
+
+                                        <div class="col-md-4">
+                                            <div class="select_box">
+
+                                                <select name="type" class="inpts" onchange="document.opts.submit();">
+                                                    <option value="">All transactions</option>
+                                                    <option value="deposit">Deposit</option>
+                                                    <option value="withdrawal">Withdrawal</option>
+                                                    <option value="earning">Earning</option>
+                                                    <option value="commissions">Referral commission</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+
+
+                                        <div class="col-md-8">
+                                            <div class="row">
+
+                                                <div class="col-sm-4">
+                                                    <div class="select_box">
+
+
+
+                                                        <select name="month_from" class="inpts">
+                                                            <option value="1">Jan
+                                                            </option>
+                                                            <option value="2">Feb
+                                                            </option>
+                                                            <option value="3">Mar
+                                                            </option>
+                                                            <option value="4">Apr
+                                                            </option>
+                                                            <option value="5">May
+                                                            </option>
+                                                            <option value="6" selected="">Jun
+                                                            </option>
+                                                            <option value="7">Jul
+                                                            </option>
+                                                            <option value="8">Aug
+                                                            </option>
+                                                            <option value="9">Sep
+                                                            </option>
+                                                            <option value="10">Oct
+                                                            </option>
+                                                            <option value="11">Nov
+                                                            </option>
+                                                            <option value="12">Dec
+                                                            </option>
+                                                        </select>
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="select_box">
+
+                                                        <select name="day_from" class="inpts">
+                                                            <option value="1">1
+                                                            </option>
+                                                            <option value="2">2
+                                                            </option>
+                                                            <option value="3">3
+                                                            </option>
+                                                            <option value="4">4
+                                                            </option>
+                                                            <option value="5">5
+                                                            </option>
+                                                            <option value="6">6
+                                                            </option>
+                                                            <option value="7" selected="">7
+                                                            </option>
+                                                            <option value="8">8
+                                                            </option>
+                                                            <option value="9">9
+                                                            </option>
+                                                            <option value="10">10
+                                                            </option>
+                                                            <option value="11">11
+                                                            </option>
+                                                            <option value="12">12
+                                                            </option>
+                                                            <option value="13">13
+                                                            </option>
+                                                            <option value="14">14
+                                                            </option>
+                                                            <option value="15">15
+                                                            </option>
+                                                            <option value="16">16
+                                                            </option>
+                                                            <option value="17">17
+                                                            </option>
+                                                            <option value="18">18
+                                                            </option>
+                                                            <option value="19">19
+                                                            </option>
+                                                            <option value="20">20
+                                                            </option>
+                                                            <option value="21">21
+                                                            </option>
+                                                            <option value="22">22
+                                                            </option>
+                                                            <option value="23">23
+                                                            </option>
+                                                            <option value="24">24
+                                                            </option>
+                                                            <option value="25">25
+                                                            </option>
+                                                            <option value="26">26
+                                                            </option>
+                                                            <option value="27">27
+                                                            </option>
+                                                            <option value="28">28
+                                                            </option>
+                                                            <option value="29">29
+                                                            </option>
+                                                            <option value="30">30
+                                                            </option>
+                                                            <option value="31">31
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-sm-4">
+                                                    <div class="select_box">
+
+
+                                                        <select name="year_from" class="inpts">
+                                                            <option value="2020" selected="">2020
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+
+
+                                    <div class="row">
+
+
+                                        <div class="col-md-4">
+                                            <div class="select_box">
+
+
+
+
+                                                <select name="ec" class="inpts">
+                                                    <option value="-1">All eCurrencies</option>
+                                                    <option value="18">PerfectMoney</option>
+                                                    <option value="48">Bitcoin</option>
+                                                </select>
+
+
+                                            </div>
+                                        </div>
+
+
+
+                                        <div class="col-md-8">
+                                            <div class="row">
+
+
+                                                <div class="col-sm-4">
+                                                    <div class="select_box">
+
+                                                        <select name="month_to" class="inpts">
+                                                            <option value="1">Jan
+                                                            </option>
+                                                            <option value="2">Feb
+                                                            </option>
+                                                            <option value="3">Mar
+                                                            </option>
+                                                            <option value="4">Apr
+                                                            </option>
+                                                            <option value="5">May
+                                                            </option>
+                                                            <option value="6" selected="">Jun
+                                                            </option>
+                                                            <option value="7">Jul
+                                                            </option>
+                                                            <option value="8">Aug
+                                                            </option>
+                                                            <option value="9">Sep
+                                                            </option>
+                                                            <option value="10">Oct
+                                                            </option>
+                                                            <option value="11">Nov
+                                                            </option>
+                                                            <option value="12">Dec
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="select_box">
+
+                                                        <select name="day_to" class="inpts">
+                                                            <option value="1">1
+                                                            </option>
+                                                            <option value="2">2
+                                                            </option>
+                                                            <option value="3">3
+                                                            </option>
+                                                            <option value="4">4
+                                                            </option>
+                                                            <option value="5">5
+                                                            </option>
+                                                            <option value="6">6
+                                                            </option>
+                                                            <option value="7">7
+                                                            </option>
+                                                            <option value="8">8
+                                                            </option>
+                                                            <option value="9">9
+                                                            </option>
+                                                            <option value="10" selected="">10
+                                                            </option>
+                                                            <option value="11">11
+                                                            </option>
+                                                            <option value="12">12
+                                                            </option>
+                                                            <option value="13">13
+                                                            </option>
+                                                            <option value="14">14
+                                                            </option>
+                                                            <option value="15">15
+                                                            </option>
+                                                            <option value="16">16
+                                                            </option>
+                                                            <option value="17">17
+                                                            </option>
+                                                            <option value="18">18
+                                                            </option>
+                                                            <option value="19">19
+                                                            </option>
+                                                            <option value="20">20
+                                                            </option>
+                                                            <option value="21">21
+                                                            </option>
+                                                            <option value="22">22
+                                                            </option>
+                                                            <option value="23">23
+                                                            </option>
+                                                            <option value="24">24
+                                                            </option>
+                                                            <option value="25">25
+                                                            </option>
+                                                            <option value="26">26
+                                                            </option>
+                                                            <option value="27">27
+                                                            </option>
+                                                            <option value="28">28
+                                                            </option>
+                                                            <option value="29">29
+                                                            </option>
+                                                            <option value="30">30
+                                                            </option>
+                                                            <option value="31">31
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-4">
+                                                    <div class="select_box">
+
+                                                        <select name="year_to" class="inpts">
+                                                            <option value="2020" selected="">2020
+                                                            </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+
+
+                                </div>
+
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="text-center bottom_margin">
+                                            <input class="btn btn-default" type="submit" value="Submit">
+
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+
+                            </form>
+
+
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="admin_title blue_text text-left">Earning List :</h5>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-xs-12">
+
+
+
+                                    <div class="table-responsive">
+                                        <table cellspacing="1" cellpadding="2" border="0" width="100%" class="tab">
+                                            <tbody>
+                                                <tr>
+                                                    <th class="inheader"><b>Type</b></th>
+                                                    <th class="inheader" width="200"><b>Amount</b></th>
+                                                    <th class="inheader" width="170"><b>Date</b></th>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" align="center">No transactions found</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3">&nbsp;</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">Total:</td>
+                                                    <td align="right"><b>$ 0.00</b></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+
+
+
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="row">
+
+                                <div class="col-xs-12">
+                                    <nav aria-label="Page navigation example">
+                                        <ul class="pagination center_pagination">
+
+
+
+
+
+                                        </ul>
+
+
+
+                                    </nav>
+                                </div>
+
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+    {% endblock %}

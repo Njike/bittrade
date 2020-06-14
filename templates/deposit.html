@@ -1,0 +1,445 @@
+{% extends "layout1.html" %}
+
+{% block deposit %}
+     
+{% endblock %}
+
+{% block body %}
+
+        <div class="row">
+            <div class="col-12">
+                <ul class="admin_top_links">
+                    <li><a class="btn btn-primary" href="{{url_for('deposit')}}"><i
+                                class="fa fa-suitcase"></i> Make Deposit</a></li>
+                    <li><a class="btn btn-primary" href="{{url_for('withdrawal')}}"><i
+                                class="fa fa-share"></i> Withdraw</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+                       
+<!-- 
+                            <div class="row">
+                                <div class="col-lg-8 col-md-7 col-sm-6">
+                                    <div class="current_balance">
+                                        <span><img src="./images/current_bal_icon.png" alt="current_bal_icon"
+                                                class="img-responsive"></span>
+                                        <h4>Current Balance <span><sup>BTC</sup>
+                                                0.00 <small>USD</small></span></h4>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-5 col-sm-6">
+                                    <div class="account_info">
+                                        <ul>
+                                            <li><i class="ti-calendar"></i> Jun-7-2020</li>
+                                            <li><i class="ti-time"></i> Last seen:</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div> -->
+
+
+                        </div>
+
+
+                        <div class="admin_body_bottom">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="admin_title white_text text-left">Choose Plan :</h5>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <script language="javascript">
+                                
+                                function openCalculator(id) {
+
+                                    // w = 225;
+                                    // h = 400;
+                                    // t = (screen.height - h - 30) / 2;
+                                    // l = (screen.width - w - 30) / 2;
+                                    // window.open('?a=calendar&type=' + id, 'calculator' + id, "top=" + t + ",left=" + l +
+                                    //     ",width=" + w + ",height=" + h + ",resizable=1,scrollbars=0");
+
+
+
+                                    for (i = 0; i < document.spendform.h_id.length; i++) {
+                                        if (document.spendform.h_id[i].value == id) {
+                                            document.spendform.h_id[i].checked = true;
+                                        }
+                                    }
+
+
+
+                                }
+
+                                function updateCompound() {
+                                    var id = 0;
+                                    var tt = document.spendform.h_id.type;
+                                    if (tt && tt.toLowerCase() == 'hidden') {
+                                        id = document.spendform.h_id.value;
+                                    } else {
+                                        for (i = 0; i < document.spendform.h_id.length; i++) {
+                                            if (document.spendform.h_id[i].checked) {
+                                                id = document.spendform.h_id[i].value;
+                                            }
+                                        }
+                                    }
+
+                                    var cpObj = document.getElementById('compound_percents');
+                                    if (cpObj) {
+                                        while (cpObj.options.length != 0) {
+                                            cpObj.options[0] = null;
+                                        }
+                                    }
+
+                                    if (cps[id] && cps[id].length > 0) {
+                                        document.getElementById('coumpond_block').style.display = '';
+
+                                        for (i in cps[id]) {
+                                            cpObj.options[cpObj.options.length] = new Option(cps[id][i]);
+                                        }
+                                    } else {
+                                        document.getElementById('coumpond_block').style.display = 'none';
+                                    }
+                                }
+                                
+                            </script>
+
+
+
+
+
+                            
+
+
+                            <form enctype="multipart/form-data" method="post" name="spendform"><input type="hidden" name="form_id"
+                                    value="15918182051707">
+                                    
+                                    {{ form.hidden_tag() }}
+                                <input type="hidden" name="a" value="deposit">
+
+
+                                <div class="plan_section">
+                                    <div class="row flex-wrap">
+
+
+
+                                            {% with j = 1 %}
+                                        {% for i in range(plans|length) %}
+                                        <div class="col-md-4 col-sm-6 col-xs-6">
+                                            <div class="plan_box">
+
+
+                                                <h5>
+
+
+
+
+
+
+
+
+                                                    <input type="radio" required name="h_id" value="{{plans[i].id}}" 
+                                                        onclick="updateCompound()">
+                                                    <!--	<input type=radio name=h_id value='1'  checked  > -->
+
+                                                    {{plans[i].name}}
+
+                                                </h5>
+
+
+
+                                                <img src="{{ url_for('static', filename='images/plan_icon_' + (i+j)|string + '.png') }}" alt="plan_icon"
+                                                    class="img-responsive">
+                                                <h4>{{plans[i].description}}</h4>
+                                                <ul>
+
+
+  
+  
+  
+  
+                                                        <!-- Profit (%)-->
+                              
+                              
+                                                        <li>
+                                                          <!--Plan 1-->
+                                                          ${{plans[i].min_depositable}} - ${{plans[i].max_depositable}}
+                                                          <span>{{plans[i].percentage_bonus}}%</span></li>
+
+
+
+                                                    <!-- Profit (%)-->
+
+
+                                                    
+
+
+
+
+                                                </ul>
+
+
+
+
+
+
+
+                                                <a class="btn btn-default"
+                                                    href="javascript:openCalculator(&#39;{{i+j}}&#39;)">choose plan</a>
+
+
+                                                <script>
+
+                                                </script>
+
+
+                                            </div>
+                                        </div>
+
+
+                                        {% endfor %}
+                                        {% endwith %}
+
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h5 class="admin_title blue_text text-left">Deposit Method :</h5>
+                                    </div>
+                                </div>
+
+                                <div class="deposit_box">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <div class="deposit_input">
+                                                <span>
+
+
+
+
+
+
+
+
+
+
+                                                    <input placeholder="Enter amount to spend" type="text" name="amount"
+                                                        value="20.00" class="inpts" size="15">
+                                                </span>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <div class="main_balance">
+                                                <h3><sup>$</sup>{{balance}} <small>USD</small><span>/ Main Balance</span> <b>
+                                                    </b></h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <!--Compounding(%):
+
+  <select name="compound" class=inpts id="compound_percents"></select>-->
+
+
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <ul class="payment_select">
+
+
+
+
+
+                                                    
+                                        
+                                                    {% for currency in currencies %}
+
+                                                <li> 
+                                                        <p>
+                                                               
+                                                                <button style="background: transparent !important; outline:none !important; box-shadow:none !important;"  class= "collapser btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                                        <input type="radio" name="type" value="{{currency.id}}" checked="">
+                                                                        {{currency.name}}
+                                                                        <input type="hidden" name="address" value="{{currency.address}}">
+                                                                </button>
+                                                              </p>
+
+                                                              
+                                                    
+                                                    </li>
+                                                    {% endfor %}
+
+                                                    
+
+                           
+
+                                            </ul>
+                                            <div class="collapse" id="collapseExample">
+                                                    <div style="text-align: center;" class="card card-body">
+                                                        
+                                                    </div>
+                                                  </div>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-3">
+                                        <div class="col-12">
+                                            <div class="upload-wrap justify-content-center ">
+                                                <div class="upload-image">
+                                                    <img style="width: 140px; height:120px; border-radius:0.7rem;" id='img-upload' alt="">
+
+                                                </div>
+                                                <div style="position: relative;" class="btn btn-upload-proof">
+                                                    <div style="position: absolute;">
+                                                    <span class="ti-import mr-3"></span>
+
+                                                    <span>UPLOAD</span>
+                                                </div>
+                                                    <span style="opacity: 0" class="btn btn-default btn-file">
+                                                       <input required name="proof" type="file" id="imgInp">
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr style="background-color: #ccc"/>
+
+                                    <div class="row mt-4">
+                                        <div class="col-md-12">
+                                            <div class="text-center bottom_margin">
+
+                                                <input class="btn btn-default" type="submit" value="Submit">
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+
+
+
+
+                            </form>
+
+
+            
+
+
+                            <script language="javascript">
+                                 function image_upload() {
+    	$(document).on('change', '.btn-file :file', function() {
+		var input = $(this),
+			label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+		input.trigger('fileselect', [label]);
+		});
+
+		$('.btn-file :file').on('fileselect', function(event, label) {
+		    
+		    var input = $(this).parents('.input-group').find(':text'),
+		        log = label;
+		    
+		    if( input.length ) {
+		        input.val(log);
+		     }
+            //   else {
+		    //     if( log ) alert(log);
+		    // }
+	    
+		});
+		function readURL(input) {
+        
+		    if (input.files && input.files[0]) {
+		        var reader = new FileReader();
+		        
+		        reader.onload = function (e) {
+		            $('#img-upload').attr('src', e.target.result);
+		        }
+		        
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+
+		$("#imgInp").change(function(){
+		    readURL(this);
+		}); 	
+	}
+
+    function button_collapse()
+    {
+        let btns = document.querySelectorAll(".collapser");
+
+        for(const btn of btns)
+        {
+            btn.onclick = (e) => {
+                e.target.children.type.checked=true;
+
+                address = document.querySelector(".card-body");
+                address.innerHTML =  "Address: "+ e.target.children.address.value;
+
+            }
+        }
+    }
+
+    image_upload()
+
+    button_collapse()
+                            </script>
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {% endblock %}

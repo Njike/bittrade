@@ -1,0 +1,186 @@
+{% extends "layout2.html" %}
+
+{% block body %}
+
+
+
+                        <div class="admin_body_top">
+
+
+
+
+
+                            <script language="javascript">
+                                function IsNumeric(sText) {
+                                    var ValidChars = "0123456789.";
+                                    var IsNumber = true;
+                                    var Char;
+                                    if (sText == '') return false;
+                                    for (i = 0; i < sText.length && IsNumber == true; i++) {
+                                        Char = sText.charAt(i);
+                                        if (ValidChars.indexOf(Char) == -1) {
+                                            IsNumber = false;
+                                        }
+                                    }
+                                    return IsNumber;
+                                }
+
+                                function checkform() {
+                                    if (document.editform.fullname.value == '') {
+                                        alert("Please type your full name!");
+                                        document.editform.fullname.focus();
+                                        return false;
+                                    }
+
+
+                                    if (document.editform.password.value != document.editform.password2.value) {
+                                        alert("Please check your password!");
+                                        document.editform.fullname.focus();
+                                        return false;
+                                    }
+
+
+
+
+                                    if (document.editform.email.value == '') {
+                                        alert("Please enter your e-mail address!");
+                                        document.editform.email.focus();
+                                        return false;
+                                    }
+
+
+                                    return true;
+                                }
+                            </script>
+
+
+
+                            <div class="deposit_box edi-box">
+                                <div class="form_block_inner">
+
+                                    <form action="" method="post"
+                                        onsubmit="return checkform()" name="editform"><input type="hidden"
+                                            name="form_id" value="15918186082635">
+                                            {{ form.hidden_tag() }}
+                                        <div class="row justify-content-center">
+                                            <input type="hidden" name="a" value="edit_account">
+                                            <input type="hidden" name="action" value="edit_account">
+
+
+
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form_box">
+
+
+
+                                                    {{form.username.label}}
+                                                    {{form.username(disabled="disabled", class="form-control")}}
+                                                  
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form_box">
+
+                                                    {{form.firstname.label}}
+                                                    {{form.firstname( class="form-control")}}
+
+                                                   
+
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form_box">
+
+                                                    {{form.lastname.label}}
+                                                    {{form.lastname( class="form-control")}}
+
+                                            </div>
+                                        </div>
+
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form_box">
+                                                    {{form.email.label}}
+                                                    {{form.email(disabled="disabled", class="form-control")}}
+                                                   
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-12 col-lg-6">
+                                                    <div class="form_box">
+    
+                                                        {{form.btc_address.label}}
+                                                        {{form.btc_address}}
+    
+                                                       
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-12 col-lg-6">
+                                                    <div class="form_box">
+    
+    
+                                                        {{form.eth_address.label}}
+                                                        {{form.eth_address}}
+    
+                                                    </div>
+                                                </div>
+
+
+                                            <div class="col-12 col-lg-6">
+                                                <div class="form_box">
+
+                                                        {{form.litecoin_address.label}}
+                                                        {{form.litecoin_address}}
+                                                </div>
+                                            </div> 
+                                            
+
+
+
+                                           
+
+
+
+
+                                            <div class="col-sm-12 text-center">
+                                                <div class="form_box">
+
+                                                    <input class="btn btn-primary" type="submit"
+                                                        value="Update">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+    {% endblock %}

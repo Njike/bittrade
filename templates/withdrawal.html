@@ -1,0 +1,155 @@
+{% extends "layout1.html" %}
+
+{% block body %}
+
+
+                        </div>
+
+                        <div class="msg black">
+
+
+
+
+                        </div>
+
+
+
+
+
+
+
+                        <form method="post"><input type="hidden" name="form_id" value="15918185409897">
+                            {{ form.hidden_tag()}}
+                            <input type="hidden" name="a" value="withdraw">
+                            <input type="hidden" name="action" value="preview">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5 class="admin_title white_text text-left">Account Detail</h5>
+                                    <div class="account_details withdraw">
+                                        <ul>
+
+                                            <li>
+                                                <h6>Account Balance <span>$<b>{{current_user.wallet.transaction[0].balance()}}</b>
+                                                        <small>
+                                                        </small></span></h6>
+                                            </li>
+
+
+
+
+                                            <li>
+                                                <h6>Pending Withdrawal <span>$<b>{{detail["pendingWithdrawals"]|sum}}</b> <small>USD</small></span></h6>
+                                            </li>
+
+
+
+
+                                            <!-- <li>
+
+
+                                                <h6>
+                                                    PerfectMoney
+
+                                                    <span>
+                                                        <a href="https://Bittrade.com/?a=edit_account"><i>not
+                                                                set</i></a></span>
+                                                </h6>
+                                            </li>
+                                            <li>
+
+
+                                                <h6>
+                                                    Bitcoin
+
+                                                    <span>
+                                                        <a href="https://Bittrade.com/?a=edit_account"><i>not
+                                                                set</i></a></span>
+                                                </h6>
+                                            </li> -->
+
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12">
+                                    <h5 class="admin_title white_text text-left">Withdraw</h5>
+                                    <div class="account_details withdraw">
+                                        <ul>
+
+                                            <li>
+                                                <h6>Amount
+                                                    <span><input name="amount" class="form-control" max="10.0" type="number" value="0.00" placeholder="0.00">
+                                                        <small>
+                                                        </small>
+                                                    </span
+                                                ></h6>
+                                            </li>
+                                            <li>
+                                                <button class="btn btn-primary">
+                                                    Request
+                                                </button>
+                                            </li>
+
+
+
+
+                                            <!-- <li>
+
+
+                                                <h6>
+                                                    PerfectMoney
+
+                                                    <span>
+                                                        <a href="https://Bittrade.com/?a=edit_account"><i>not
+                                                                set</i></a></span>
+                                                </h6>
+                                            </li>
+                                            <li>
+
+
+                                                <h6>
+                                                    Bitcoin
+
+                                                    <span>
+                                                        <a href="https://Bittrade.com/?a=edit_account"><i>not
+                                                                set</i></a></span>
+                                                </h6>
+                                            </li> -->
+
+
+
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+                            <br><br>
+                            <div class="msg"><span class="errow"><i class="fa fa-times"></i>You have no funds to
+                                    withdraw</span></div>
+                        </form>
+
+
+                    </div>
+                </div>
+
+
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+    {% endblock %}

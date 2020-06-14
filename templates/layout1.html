@@ -1,0 +1,39 @@
+{% extends "layout2.html" %}
+
+
+{% block info %}
+
+<div class="admin_body_top">
+        <div class="row">
+            <div class="col-lg-8 col-md-7 col-sm-6">
+                <div class="current_balance">
+                    <span><img src="{{url_for('static', filename='images/current_bal_icon.png')}}" alt="current_bal_icon"
+                            class="img-responsive"></span>
+                    <h4>Current Balance <span><sup>$</sup>{{balance}} <small>USD</small></span></h4>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-6">
+                <div class="account_info">
+                    <ul>
+                        <li><i class="ti-calendar"></i> {{date.strftime("%b %d, %Y")}}</li>
+                        {% if current_user.last_seen %}
+                        <li><i class="ti-time"></i> Last seen: {{current_user.last_seen.strftime("%b %d, %Y")}}</li>
+                        {% else %}
+                        <li><i class="ti-time"></i> Last seen: </li>
+
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+         {% endblock %}
+                       
+                        
+         {% block deposit %}
+
+         {% endblock %}
+
+                            {% block body %}
+
+                           {% endblock %}
+    
