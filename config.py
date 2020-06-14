@@ -6,7 +6,7 @@ class Config(object):
     
     SECRET_KEY = "ike1234789"
 
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URI")
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     UPLOADS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/img/uploads")

@@ -48,6 +48,7 @@ spyder==3.1.4
 SQLAlchemy==1.1.9
 sqlparse==0.3.0
 statsmodels==0.8.0
+email-validator==1.1.1
 sympy==1.0
 tables==3.3.0
 wcwidth==0.1.7
