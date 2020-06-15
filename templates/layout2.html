@@ -24,8 +24,8 @@
 
 
 
-
-    <div id="ui" class="ui ui-aside-compact">
+    <!-- ui-aside-compact -->
+    <div id="ui" class="ui">
         <!--header start-->
         <nav class="navbar navbar-expand-lg justify-content-between navbar-light bg-light ui-header">
             <div class="d-flex align-items-center">
@@ -65,11 +65,13 @@
                     </ul>
                 </li>
                 <li>
-                    <a class="nav-link" href="javascript:void(0)"><i class="ti-server"></i><span>Deposit <i
+                    <a class="nav-link drop" href="javascript:void(0)"><i class="ti-server"></i><span>Deposit <i
                                 class="fa fa-caret-down"></i></span></a>
-                    <ul style="display: none;" class="nav nav-sub nav-sub--open">
+                    <ul class="nav nav-sub">
                         <li class="active nav-sub-header"><a class="nav-link"
                                 href="{{url_for('deposit')}}"><span>Deposit</span></a></li>
+                                <li><a class="nav-link"
+                                    href="{{url_for('deposit')}}"><span>Deposit</span></a></li>
                         <li><a class="nav-link" href="{{url_for('deposit_list')}}"><span>Deposit List</span></a></li>
                     </ul>
                 </li>
@@ -154,6 +156,10 @@
                            {% block body %}
 
                            {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
     <footer>
         <div class="admin_footer">
             <div class="container">
@@ -191,7 +197,8 @@ function copyToClipboard(element) {
     <script src="{{url_for('static', filename='js/area-chart.js')}}"></script>
     <script src="{{url_for('static', filename='js/jquery.nicescroll.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/autosize.js')}}"></script>
-    <script type="module" src="{{url_for('static', filename='js/side_menu.js')}}"></script>
+    <script src="{{url_for('static', filename='js/sidemenu.js')}}"></script>
+    <!-- <script type="module" src="{{url_for('static', filename='js/side_menu.js')}}"></script> -->
 
 
 
