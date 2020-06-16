@@ -30,8 +30,8 @@
                                         <ul>
 
                                             <li>
-                                                <h6>Account Balance <span>$<b>{{current_user.wallet.transaction[0].balance()}}</b>
-                                                        <small>
+                                                <h6>Account Balance <span><b>{{current_user.wallet.transaction[0].balance()}}</b>
+                                                        <small>{{current_user.wallet.cryptocurrency.code}}
                                                         </small></span></h6>
                                             </li>
 
@@ -39,7 +39,7 @@
 
 
                                             <li>
-                                                <h6>Pending Withdrawal <span>$<b>{{detail["pendingWithdrawals"]|sum}}</b> <small>USD</small></span></h6>
+                                                <h6>Pending Withdrawal <span><b>{{detail["pendingWithdrawals"]|sum}}</b> <small>{{current_user.wallet.cryptocurrency.code}}</small></span></h6>
                                             </li>
 
 

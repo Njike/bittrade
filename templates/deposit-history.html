@@ -27,8 +27,8 @@
 
 
                             <form method="post" name="opts"><input type="hidden" name="form_id"
-                                    value="15918184186491"><input type="hidden" name="form_token"
-                                    value="c93bba0692c296fa00a7a751ccf32886">
+                                    value="15918184186491">
+                                        {{ form.hidden_tag()}}
                                 <input type="hidden" name="a" value="earnings">
                                 <input type="hidden" name="page" value="1">
 
@@ -48,286 +48,102 @@
                                                     <option value="">All transactions</option>
                                                     <option value="deposit" selected="">Deposit</option>
                                                     <option value="withdrawal">Withdrawal</option>
-                                                    <option value="earning">Earning</option>
-                                                    <option value="commissions">Referral commission</option>
+                                                  
+                                                  
                                                 </select>
                                             </div>
                                         </div>
 
 
+                                        {% if transac %}
+                                        {% for t in transac %}
+                                        
+                                        <div class="table-responsive">
+                                                            <div class="deptab">
+                                                                <table cellspacing="1" cellpadding="2" border="0"
+                                                                    width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                           
+
+                                                                            
+                                                                            {% if t.deposit %}
+                                                                            <td colspan="8"><b>DEPOSIT</b>
+                                                                            </td>
+                                                                            <td width="200" class="item" align="right">${{t.deposit.amount}}</td>
+                                                                                    {% elif t.withdrawal %}
+                                                                                    <td colspan="8"><b>WITHDRAWAL</b>
+                                                                                    </td>
+                                                                                    <td width="200" class="item" align="right">${{t.withdrawal.amount}}</td>
+                                                                                    {% endif %}
+                                                                                
+                                                                                {% if t.is_successful %}
+                                                                                <td width="100" class="item" align="right">SUCCESFUL</td>
+                                                                                {% elif not t.is_successful %}
+                                                                                <td width="100" class="item" align="right">PENDING</td>
+                                                                                {% endif %}
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+    
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                        {% endif %}
+
+                                                        {% if deposits %}
+                                        {% for d in deposits %}
+                                        
+                                        <div class="table-responsive">
+                                                            <div class="deptab">
+                                                                <table cellspacing="1" cellpadding="2" border="0"
+                                                                    width="100%">
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            
+
+                                                                            
+                                                                            
+                                                                            <td width="200" class="item" align="right">${{d.amount}}</td>
+                                                                                  
+                                                                                
+                                                                               
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+    
+                                                            </div>
+                                                        </div>
+                                                        {% endfor %}
+                                                        {% endif %}
 
 
-                                        <div class="col-md-8">
-                                            <div class="row">
-
-                                                <div class="col-sm-4">
-                                                    <div class="select_box">
-
-
-
-                                                        <select name="month_from" class="inpts">
-                                                            <option value="1">Jan
-                                                            </option>
-                                                            <option value="2">Feb
-                                                            </option>
-                                                            <option value="3">Mar
-                                                            </option>
-                                                            <option value="4">Apr
-                                                            </option>
-                                                            <option value="5">May
-                                                            </option>
-                                                            <option value="6" selected="">Jun
-                                                            </option>
-                                                            <option value="7">Jul
-                                                            </option>
-                                                            <option value="8">Aug
-                                                            </option>
-                                                            <option value="9">Sep
-                                                            </option>
-                                                            <option value="10">Oct
-                                                            </option>
-                                                            <option value="11">Nov
-                                                            </option>
-                                                            <option value="12">Dec
-                                                            </option>
-                                                        </select>
-
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <div class="select_box">
-
-                                                        <select name="day_from" class="inpts">
-                                                            <option value="1">1
-                                                            </option>
-                                                            <option value="2">2
-                                                            </option>
-                                                            <option value="3">3
-                                                            </option>
-                                                            <option value="4">4
-                                                            </option>
-                                                            <option value="5">5
-                                                            </option>
-                                                            <option value="6">6
-                                                            </option>
-                                                            <option value="7" selected="">7
-                                                            </option>
-                                                            <option value="8">8
-                                                            </option>
-                                                            <option value="9">9
-                                                            </option>
-                                                            <option value="10">10
-                                                            </option>
-                                                            <option value="11">11
-                                                            </option>
-                                                            <option value="12">12
-                                                            </option>
-                                                            <option value="13">13
-                                                            </option>
-                                                            <option value="14">14
-                                                            </option>
-                                                            <option value="15">15
-                                                            </option>
-                                                            <option value="16">16
-                                                            </option>
-                                                            <option value="17">17
-                                                            </option>
-                                                            <option value="18">18
-                                                            </option>
-                                                            <option value="19">19
-                                                            </option>
-                                                            <option value="20">20
-                                                            </option>
-                                                            <option value="21">21
-                                                            </option>
-                                                            <option value="22">22
-                                                            </option>
-                                                            <option value="23">23
-                                                            </option>
-                                                            <option value="24">24
-                                                            </option>
-                                                            <option value="25">25
-                                                            </option>
-                                                            <option value="26">26
-                                                            </option>
-                                                            <option value="27">27
-                                                            </option>
-                                                            <option value="28">28
-                                                            </option>
-                                                            <option value="29">29
-                                                            </option>
-                                                            <option value="30">30
-                                                            </option>
-                                                            <option value="31">31
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-
-                                                <div class="col-sm-4">
-                                                    <div class="select_box">
-
-
-                                                        <select name="year_from" class="inpts">
-                                                            <option value="2020" selected="">2020
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-
-
-
-                                    </div>
-
-
-                                    <div class="row">
-
-
-                                        <div class="col-md-4">
-                                            <div class="select_box">
-
-
-
-
-                                                <select name="ec" class="inpts">
-                                                    <option value="-1">All eCurrencies</option>
-                                                    <option value="18">PerfectMoney</option>
-                                                    <option value="48">Bitcoin</option>
-                                                </select>
-
-
-                                            </div>
-                                        </div>
-
-
-
-                                        <div class="col-md-8">
-                                            <div class="row">
-
-
-                                                <div class="col-sm-4">
-                                                    <div class="select_box">
-
-                                                        <select name="month_to" class="inpts">
-                                                            <option value="1">Jan
-                                                            </option>
-                                                            <option value="2">Feb
-                                                            </option>
-                                                            <option value="3">Mar
-                                                            </option>
-                                                            <option value="4">Apr
-                                                            </option>
-                                                            <option value="5">May
-                                                            </option>
-                                                            <option value="6" selected="">Jun
-                                                            </option>
-                                                            <option value="7">Jul
-                                                            </option>
-                                                            <option value="8">Aug
-                                                            </option>
-                                                            <option value="9">Sep
-                                                            </option>
-                                                            <option value="10">Oct
-                                                            </option>
-                                                            <option value="11">Nov
-                                                            </option>
-                                                            <option value="12">Dec
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <div class="select_box">
-
-                                                        <select name="day_to" class="inpts">
-                                                            <option value="1">1
-                                                            </option>
-                                                            <option value="2">2
-                                                            </option>
-                                                            <option value="3">3
-                                                            </option>
-                                                            <option value="4">4
-                                                            </option>
-                                                            <option value="5">5
-                                                            </option>
-                                                            <option value="6">6
-                                                            </option>
-                                                            <option value="7">7
-                                                            </option>
-                                                            <option value="8">8
-                                                            </option>
-                                                            <option value="9">9
-                                                            </option>
-                                                            <option value="10" selected="">10
-                                                            </option>
-                                                            <option value="11">11
-                                                            </option>
-                                                            <option value="12">12
-                                                            </option>
-                                                            <option value="13">13
-                                                            </option>
-                                                            <option value="14">14
-                                                            </option>
-                                                            <option value="15">15
-                                                            </option>
-                                                            <option value="16">16
-                                                            </option>
-                                                            <option value="17">17
-                                                            </option>
-                                                            <option value="18">18
-                                                            </option>
-                                                            <option value="19">19
-                                                            </option>
-                                                            <option value="20">20
-                                                            </option>
-                                                            <option value="21">21
-                                                            </option>
-                                                            <option value="22">22
-                                                            </option>
-                                                            <option value="23">23
-                                                            </option>
-                                                            <option value="24">24
-                                                            </option>
-                                                            <option value="25">25
-                                                            </option>
-                                                            <option value="26">26
-                                                            </option>
-                                                            <option value="27">27
-                                                            </option>
-                                                            <option value="28">28
-                                                            </option>
-                                                            <option value="29">29
-                                                            </option>
-                                                            <option value="30">30
-                                                            </option>
-                                                            <option value="31">31
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <div class="select_box">
-
-                                                        <select name="year_to" class="inpts">
-                                                            <option value="2020" selected="">2020
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-
-                                    </div>
+                                                        {% if withdrawals %}
+                                                        {% for w in withdrawal %}
+                                                        
+                                                        <div class="table-responsive">
+                                                                            <div class="deptab">
+                                                                                <table cellspacing="1" cellpadding="2" border="0"
+                                                                                    width="100%">
+                                                                                    <tbody>
+                                                                                        <tr>
+                                                                                            
+                
+                                                                                            
+                                                                                            
+                                                                                            <td width="200" class="item" align="right">${{w.amount}}</td>
+                                                                                                  
+                                                                                                
+                                                                                                
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+                    
+                                                                            </div>
+                                                                        </div>
+                                                                        {% endfor %}
+                                                                        {% endif %}
+                
 
 
 
@@ -353,48 +169,10 @@
 
 
 
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h5 class="admin_title blue_text text-left">Earning List :</h5>
-                                </div>
-                            </div>
+                            
 
 
-                            <div class="row">
-                                <div class="col-xs-12">
-
-
-
-                                    <div class="table-responsive">
-                                        <table cellspacing="1" cellpadding="2" border="0" width="100%" class="tab">
-                                            <tbody>
-                                                <tr>
-                                                    <th class="inheader"><b>Type</b></th>
-                                                    <th class="inheader" width="200"><b>Amount</b></th>
-                                                    <th class="inheader" width="170"><b>Date</b></th>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3" align="center">No transactions found</td>
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="3">&nbsp;</td>
-
-                                                </tr>
-                                                <tr>
-                                                    <td colspan="2">Total:</td>
-                                                    <td align="right"><b>$ 0.00</b></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
-
-
-
-
-
-                                </div>
-                            </div>
+                         
 
 
 

@@ -1,7 +1,10 @@
 from flask import Flask
-from models.models import db
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
+
+from models.models import db
+
+
 
 if app.config["DEBUG"]:
     print(app.config["DEBUG"], "DEBUGging")

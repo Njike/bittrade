@@ -43,6 +43,7 @@
                                 </ul>
                             </div>
                         </div>
+                        {% if not current_user %}
                         <div class="col-md-6">
                             <div class="header_top_right">
                                 <ul>
@@ -56,6 +57,7 @@
                                 </ul>
                             </div>
                         </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -153,6 +155,20 @@
                         </li>
                     </ul>
                 </div>
+                {% if current_user and current_user.isAuthenticated() %}
+                <div class="user-dropdown">
+                    <div class="dropdown open">
+                        <button class="btn dropdown-toggle user-abbr" type="button" id="triggerId" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                            Welcome {{current_user.username|capitalize}}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="triggerId">
+                            <a class="dropdown-item" href="{{url_for('account')}}">Account</a>
+                            <a class="dropdown-item" href="{{url_for('support')}}">Contact Support</a>
+                        </div>
+                    </div>
+                </div>
+                {% endif%} 
             </nav>
         </header>
 
@@ -225,12 +241,12 @@
                             <div class="footer_subscribe">
                                 <h5 class="footer_title">We Accept</h5>
                                 <ul>
-                                    <li style="padding:20px 18px;"><img src="{{ url_for('static', filename='images/pm.png') }}" /></li>
-                                    <li style="padding:20px 18px;"><img src="{{ url_for('static', filename='images/payeer.png') }}" /></li>
-                                    <li style="padding:20px 18px;"><img src="{{ url_for('static', filename='images/bitcoin.png') }}" /></li>
-                                    <li style="padding:20px 18px;"><img src="{{ url_for('static', filename='images/advcash.png') }}" /></li>
-                                    <li style="padding:20px 18px;"><img src="{{ url_for('static', filename='images/comodo.png') }}" />/li>
-                                    <li style="padding:20px 18px;"><img src="{{ url_for('static', filename='images/ddos.png') }}" /></li>
+                                    <li style="padding:20px 18px;"><img style="width: 93px; height:40px" src="{{ url_for('static', filename='images/images-3.png') }}" /></li>
+                                    <li style="padding:20px 18px;"><img style="width: 93px; height:40px" src="{{ url_for('static', filename='images/images-4.png') }}" /></li>
+                                    <li style="padding:20px 18px;"><img style="width: 93px; height:40px" src="{{ url_for('static', filename='images/images.jpeg-4.jpg') }}" /></li>
+                                    <li style="padding:20px 18px;"><img style="width: 93px; height:40px" src="{{ url_for('static', filename='images/images-5.png') }}" /></li>
+                                    <li style="padding:20px 18px;"><img style="width: 93px; height:40px" src="{{ url_for('static', filename='images/comodo.png') }}" />/li>
+                                    <li style="padding:20px 18px;"><img style="width: 93px; height:40px" src="{{ url_for('static', filename='images/ddos.png') }}" /></li>
                                 </ul>
                             </div>
                         </div>
@@ -250,7 +266,23 @@
         </footer>
 
     </wrapper>
+
+
+          <!--Start of Tawk.to Script-->
+<script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/5ee3f76f9e5f69442290776f/default';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
+
 
 
 

@@ -270,7 +270,71 @@
 
 
 
-                                                    
+                                                {% if current_user.wallet.cryptocurrency and current_user.wallet.cryptocurrency.code == "BTC" %}
+
+                                                <li> 
+                                                    <p>
+                                                           
+                                                            <button style="background: transparent !important; outline:none !important; box-shadow:none !important;"  class= "collapser btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                                    <input type="radio" name="type" value="{{current_user.wallet.cryptocurrency.id}}" checked="">
+                                                                    {{current_user.wallet.cryptocurrency.name}}
+                                                                    <input type="hidden" name="address" value="{{current_user.wallet.cryptocurrency.address}}">
+                                                            </button>
+                                                          </p>
+
+                                                          
+                                                
+                                                </li>
+
+                                                {% elif current_user.wallet.cryptocurrency and current_user.wallet.cryptocurrency.code == "ETH" %}
+
+                                                <li> 
+                                                    <p>
+                                                           
+                                                            <button style="background: transparent !important; outline:none !important; box-shadow:none !important;"  class= "collapser btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                                    <input type="radio" name="type" value="{{current_user.wallet.cryptocurrency.id}}" checked="">
+                                                                    {{current_user.wallet.cryptocurrency.name}}
+                                                                    <input type="hidden" name="address" value="{{current_user.wallet.cryptocurrency.address}}">
+                                                            </button>
+                                                          </p>
+
+                                                          
+                                                
+                                                </li>
+
+                                                {% elif current_user.wallet.cryptocurrency and current_user.wallet.cryptocurrency.code == "LTC" %}
+
+                                                <li> 
+                                                    <p>
+                                                           
+                                                            <button style="background: transparent !important; outline:none !important; box-shadow:none !important;"  class= "collapser btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                                    <input type="radio" name="type" value="{{current_user.wallet.cryptocurrency.id}}" checked="">
+                                                                    {{current_user.wallet.cryptocurrency.name}}
+                                                                    <input type="hidden" name="address" value="{{current_user.wallet.cryptocurrency.address}}">
+                                                            </button>
+                                                          </p>
+
+                                                          
+                                                
+                                                </li>
+
+                                                {% elif current_user.wallet.cryptocurrency and current_user.wallet.cryptocurrency.code == "BCH" %}
+
+                                                <li> 
+                                                    <p>
+                                                           
+                                                            <button style="background: transparent !important; outline:none !important; box-shadow:none !important;"  class= "collapser btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                                                                    <input type="radio" name="type" value="{{current_user.wallet.cryptocurrency.id}}" checked="">
+                                                                    {{current_user.wallet.cryptocurrency.name}}
+                                                                    <input type="hidden" name="address" value="{{current_user.wallet.cryptocurrency.address}}">
+                                                            </button>
+                                                          </p>
+
+                                                          
+                                                
+                                                </li>
+                                                {% else %}
+
                                         
                                                     {% for currency in currencies %}
 
@@ -288,6 +352,8 @@
                                                     
                                                     </li>
                                                     {% endfor %}
+
+                                                    {% endif %}
 
                                                     
 

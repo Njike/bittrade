@@ -11,6 +11,7 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 from passlib.hash import sha256_crypt
 from functools import wraps
 from helpers.imageHandler import imageHandler, allowed_image
+import json
 
 class SupportForm(FlaskForm):
     name = StringField("Your Name", validators=[DataRequired(), Length(min=2)])
@@ -23,7 +24,7 @@ class RegistratonForm(FlaskForm):
     lastname = StringField("Last Name", validators=[DataRequired(), Length(min=2)])
     username = StringField("Userame", validators=[DataRequired(), Length(min=2)])
     password1 = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
-    password2 = PasswordField("Confirm Password", validators=[DataRequired(), Length(min=8), EqualTo("password1")])
+    password2 = PasswordField("Confirm Password", validators=[DataRequired(), Length(min=8), EqualTo("password1", message='Passwords must match')])
     email = StringField("Email", validators=[DataRequired(), Email()])
     agree = BooleanField(validators=[DataRequired()])
     submit = SubmitField("Register")
@@ -38,17 +39,51 @@ class RegistratonForm(FlaskForm):
         if user:
             raise ValidationError("Username already exist, please choose a different one")
 
-def crypto():
-    return CryptoCurrency.query
+
 
 class AccountForm(FlaskForm):
-    username = StringField("Username", validators=[DataRequired(), Length(min=2)])
+    username = StringField("Username")
     firstname = StringField("Firstname", validators=[DataRequired(), Length(min=2)])
     lastname = StringField("Lastname", validators=[DataRequired(), Length(min=2)])
-    email = StringField("Email", validators=[DataRequired(),Email(), Length(min=2)])
-    btc_address = StringField("Bitcoin Address", validators=[Length(min=2)])
-    eth_address = StringField("Ethereum Address", validators=[Length(min=2)])
-    litecoin_address = StringField("Litecoin Address", validators=[Length(min=2)])
+    email = StringField("Email")
+    btc_address = StringField("Bitcoin Address")
+    eth_address = StringField("Ethereum Address")
+    litecoin_address = StringField("Litecoin Address")
+    bch_address = StringField("Bitcoin Cash Address")
+    current_password = PasswordField("Current Password", validators=[])
+    new_password = PasswordField("New Password")
+    confirm_password = PasswordField("Confirm Password", validators=[EqualTo("new_password", message='Passwords must match')])
+
+    def validate_current_password(self, password):
+        user = User().user()
+        print(password.data)
+        if password.data and password.data != user.password:
+            raise ValidationError("Invalid password, please input the currect passowrd")
+
+    # def validate_new_password(self, password):
+    #     if not self.current_password.data:
+    #         flash("Please input your current password", "warning")
+    #         return ValidationError("Please input your current password")
+
+
+class RequestResetForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+
+    def validate_email(self, email):
+        user = User.query.filter_by(email=email.data).first()
+        if not user:
+            raise ValidationError("No account found")
+
+
+
+class PasswordResetForm(FlaskForm):
+    password1 = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
+    password2 = PasswordField("Confirm Password", validators=[DataRequired(), Length(min=8), EqualTo("password1", message='Passwords must match')])
+   
+
+
+
+
 
 
 class LoginForm(FlaskForm):
@@ -56,16 +91,14 @@ class LoginForm(FlaskForm):
     password = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
     remember = BooleanField("Remember me")
 
-    # def validate_email(self, email):
-    #     user = User.query.filter_by(email=email.data).first()
-    #     if not user:
-    #         return ValidationError("Invalid email address or password")
-    #     email_validator.validate_email(
-    #                 email.data.strip(),
-    #                 check_deliverability=False,
-    #                 allow_smtputf8=True,
-    #                 allow_empty_local=False,
-    #             )   
+    def validate_email(self, email):
+       
+        email_validator.validate_email(
+                    email.data.strip(),
+                    check_deliverability=False,
+                    allow_smtputf8=True,
+                    allow_empty_local=False,
+                )   
 
     # def validate_password(self, password):
     #     user = User.query.filter_by(email=self.email.data).first()
@@ -84,7 +117,7 @@ def g():
     site_detail = SiteDetails.query.first()
     user=User().user()
     if type(User().user()) == str:
-        return {"site_detail":site_detail, "date":datetime.now()}
+        return {"current_user":None, "site_detail":site_detail, "date":datetime.now()}
     detail = {"deposits":[],"withdrawals":[],"pendingWithdrawals":[], "pendingDeposits":[]}
     transactions = Transaction.query.filter_by(wallet=user.wallet).all()
     for transaction in transactions:
@@ -109,8 +142,12 @@ def login_required(f):
         if User().isAuthenticated():
             return f(*args, **kwargs)
         else:
+            # print(str(f).split(' ')[1], "=================")
             # flash("Unauthorized, Please login", "warning")
-            return redirect(url_for("login"))
+            n = str(f).split(' ')[1]
+            if n == "logout":
+                return redirect(url_for("login"))
+            return redirect(url_for("login", next=n))
     return wrap
 
 
@@ -157,7 +194,24 @@ def index():
     return render_template('index.html', sliders=sliders, deposits=deposits, withdrawals=withdrawals, plans=plans)
 
 
-@app.route("/register", methods=["GET", "POST"])
+# @login_required
+# @app.route("/update/", methods=["GET", "POST"])
+# def update():
+#     user = User().user()
+#     transac = Transaction.query.filter_by(wallet=user.wallet).all()
+#     deposits = [t.deposit for t in transac if t.is_deposit and t.is_successful and t.deposit.plan]
+#     print(deposits[-1].plan.time_period)
+#     print(datetime.timestamp(user.date_created))
+
+
+#     toReturn = {"plan_days":deposits[-1].plan.time_period,
+#                  "user_created_at":datetime.timestamp(user.date_created), 
+#                  "percentage_bonus":deposits[-1].plan.percentage_bonus,
+#                  "amount":deposits[-1].amount}
+#     return json.dumps(toReturn)
+
+
+@app.route("/register/", methods=["GET", "POST"])
 def register():
     single_user = User.query.all()
     if User().isAuthenticated():
@@ -189,6 +243,8 @@ def register():
 
           
             db.session.add(wallet)
+            session["isAuthenticated"] = True
+            session["email"] = user.email
             
             db.session.add(user)
             create_transaction(amount=0.0,wallet=wallet,is_deposit=True, is_withdrawal=True, is_successful=True)
@@ -209,7 +265,7 @@ def register():
 
     return render_template("register.html",cryptocurrency=cryptocurrency, form=form)
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login/", methods=["GET", "POST"])
 def login():
     if User().isAuthenticated():
         return redirect(url_for("dashboard"))
@@ -234,6 +290,9 @@ def login():
              
                 session["username"] = user.username
 
+                if request.args and request.args["next"]:
+                    return redirect(url_for(request.args["next"]))
+
                 return redirect(url_for("dashboard"))
             else:
                 error = "Invalid email or password"
@@ -252,14 +311,15 @@ def login():
         
     return render_template("login.html", form=form)
 
-@app.route("/logout")
+@app.route("/logout/")
+@login_required
 def logout():
     User().user().last_seen = datetime.now()
     db.session.commit()
     session.clear()
     return redirect(url_for("login"))
 
-@app.route("/support", methods=["GET", "POST"])
+@app.route("/support/", methods=["GET", "POST"])
 def support():
     form = SupportForm()
     if request.method == "POST":
@@ -274,41 +334,88 @@ def support():
             
     return render_template("support.html", form=form)
 
-@app.route("/about")
+@app.route("/about/")
 def about():
     return render_template("about.html")
 
-@app.route("/faq")
+@app.route("/faq/")
 def faq():
     questions = FAQ.query.all()
     return render_template("faq.html", questions=questions)
 
 
 
-@app.route("/terms")
+@app.route("/terms/")
 def terms():
     return render_template("rules.html")
 
 
-@app.route("/plans")
+@app.route("/plans/")
 def plans():
     plans = SubscriptionPlan.query.all()
     return render_template("plans.html", plans=plans)
 
 
-@app.route("/news")
+@app.route("/news/")
 def news():
     return render_template("news.html")
 
 
 @app.route("/forgot_password", methods=["GET", "POST"])
 def forgot_password():
-    return render_template("forgot-password.html")
+    form = RequestResetForm()
+    if User().isAuthenticated():
+        return redirect(url_for("index"))
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.emai.data )
+        flash("A link will be sent sent to your Email","success")
+        return redirect(request.url)
+
+    return render_template("forgot-password.html", form=form)
+
+@app.route("/password_reset/<string:token>", methods=["GET", "POST"])
+def password_reset(token):
+    form = PasswordResetForm()
+    if User().isAuthenticated():
+        return redirect(url_for("index"))
+
+    user = User.verify_reset_token(token)
+    if not user:
+        flash("That is an invalid or expired token","warning")
+        return redirect(url_for("forgot_password"))
+
+    if form.validate_on_submit():
+        pass
+  
+        
+
+    return render_template("reset_password.html", form=form)
 
 
 @app.route("/dashboard/")
 @login_required
 def dashboard():
+
+    user = User().user()
+    transac = Transaction.query.filter_by(wallet=user.wallet).all()
+    deposits = [t.deposit for t in transac if t.is_deposit and t.is_successful and t.deposit.plan]
+    print(deposits[-1].plan.time_period)
+    print(datetime.timestamp(user.date_created))
+
+    delta = datetime.now() - user.date_created
+   
+
+    bonus = (float(deposits[-1].plan.percentage_bonus)/100 ) * deposits[-1].amount
+    if delta.days <= int(deposits[-1].plan.time_period):
+        session["bonus"] = bonus
+    if session["bonus"] and delta.seconds/(60*60) % 24 == 0:
+        create_transaction(amount=session["bonus"], wallet=user.wallet,is_deposit=True,is_successful=True,plan=deposits[-1].plan)
+        session["bonus"] == None
+
+
+ 
+    
+    
     
 
     return render_template("dashboard.html")
@@ -320,15 +427,27 @@ def account():
     user = User().user()
 
     if request.method == "POST" and form.validate_on_submit():
+
         user.first_name = form.firstname.data
         user.last_name = form.lastname.data
-        user.wallet.cryptocurrency = form.cryptocurrency.data
+        # user.wallet.cryptocurrency = form.cryptocurrency.data
         user.wallet.btc_address = form.btc_address.data
         user.wallet.eth_address = form.eth_address.data
         user.wallet.litecoin_address = form.litecoin_address.data
+        user.wallet.bch_address = form.bch_address.data
+        if form.current_password.data and form.current_password.data != user.password:
+            user.password = sha256_crypt.encrypt(str(form.new_password.data))
+        elif form.current_password.data and form.current_password.data == user.password:
+            flash("Choose a new password different from the current password", "warning")
+            return redirect(request.url)
+            
+
+        
 
         db.session.commit()
         flash("Account updated sccessfully", "success")
+        if request.args and request.args["next"]:
+            return redirect(url_for(request.args["next"]))
         return redirect(request.url)
     elif request.method == "GET":
         form.email.data = user.email
@@ -339,6 +458,7 @@ def account():
         form.btc_address.data = user.wallet.btc_address
         form.eth_address.data = user.wallet.eth_address
         form.litecoin_address.data = user.wallet.litecoin_address
+        form.bch_address.data = user.wallet.bch_address
 
 
     return render_template("account-edit.html", form=form)
@@ -357,13 +477,22 @@ def deposit():
 
 
     if request.method == "POST":
-        print(request.form, request.files)
+        
         if not request.files["proof"]:
             flash("Please upload the proof of payment to continue","warning")
             return redirect(request.url)
+        if request.form and not (int(request.form["h_id"]) and int(request.form["type"])):
+            flash(f"Invalid Crypto Currency or Plan, Please contact <a href='{url_for(support)}'>our support page</a> to report any issue", "warning")
+            return redirect(request.url)
+        
+        
+        if not float(request.form["amount"]):
+            flash("Please input a valid amount","warning")
+            return redirect(request.url)
         
         image = request.files["proof"]
-
+        
+    
         if not allowed_image(image.filename):
                 flash("This image extention not allowed", "warning")
                 return redirect(request.url)
@@ -371,11 +500,10 @@ def deposit():
         proof = imageHandler(image)
         
         plan = int(request.form["h_id"])
+        
         amount = float(request.form["amount"].strip())
         cryptocurrency = int(request.form["type"])
-        if not (plan and amount and cryptocurrency):
-            flash("Invalid amount, Please input a valid amount", "warning")
-            return redirect(request.url)
+        
         
         plan = SubscriptionPlan.query.get(plan)
 
@@ -399,10 +527,24 @@ def deposit():
 
     return render_template("deposit.html",form=form, plans=plans, currencies=currencies)
 
-@app.route("/deposits/")
+@app.route("/deposits/", methods=["GET","POST"])
 @login_required
 def deposit_history():
-    return render_template("deposit-history.html")
+    form = FlaskForm()
+    user = User().user()
+    if request.method == "POST":
+        transac = request.form["type"]
+
+        if not transac:
+            print()
+            return render_template("deposit-history.html", form=form, transac=user.wallet.transaction)
+        elif transac == "deposit":
+            d = [tran.deposit for tran in user.wallet.transaction if tran.deposit.plan]
+            return render_template("deposit-history.html", form=form, deposits=d)
+        elif transac == "withdrawal":
+            d = [tran.withdrawal for tran in user.wallet.transaction]
+            return render_template("deposit-history.html", form=form, withdrawals=d)
+    return render_template("deposit-history.html", form=form)
 
 @app.route("/withdrawals/")
 @login_required
@@ -426,17 +568,20 @@ def withdrawal():
         amount = float(request.form["amount"].strip())
         if user.wallet.cryptocurrency:
             crypto = user.wallet.cryptocurrency
-            if not(crypto.code == "BTC" and user.wallet.btc_address.strip()):
+          
+            if crypto.code == "BTC" and not user.wallet.btc_address.strip():
                 flash(f"Please updade your Bitcoin address","warning")
-                return redirect(url_for("account"))
-            elif not(crypto.code == "ETH" and user.wallet.eth_address.strip()):
+                return redirect(url_for("account", next="withdrawal"))
+            elif crypto.code == "ETH" and not user.wallet.eth_address.strip():
                 flash(f"Please updade your Ethereum address","warning")
-                return redirect(url_for("account"))
-            elif not(crypto.code == "LITECOIN" and user.wallet.litecoin_address.strip()):
-                flash(f"Please updade your litecoin address","warning")
-                return redirect(url_for("account"))
+                return redirect(url_for("account", next="withdrawal"))
+            elif crypto.code == "LTC" and not user.wallet.litecoin_address.strip():
+                flash(f"Please updade your Litecoin address","warning")
+                return redirect(url_for("account", next="withdrawal"))
+            elif crypto.code == "BCH" and not user.wallet.bch_address.strip():
+                flash(f"Please updade your Bitcoin Cash address","warning")
+                return redirect(url_for("account", next="withdrawal"))
         else:
-            print("fuck")
             flash("Sorry, you dont have any actiive deposit", "warning")
             return redirect(request.url)
         if amount >= balance and balance > 1:

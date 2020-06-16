@@ -82,8 +82,15 @@ class ControlerView(ModelView):
         # else:
         #     return User().isAuthenticated()
     
-    def not_auth(self):
-        return abort(404)
+    def inaccessible_callback(self, name, **kwargs):
+        print("===========================")
+        # redirect to login page if user doesn't have access
+        return redirect(url_for('login', next=request.url))
+
+    # def _handle_view(self, name):
+    #     print("===========================")
+    #     if not self.is_accessible():
+    #         return redirect(url_for('login'))
 
 
 

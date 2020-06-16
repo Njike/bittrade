@@ -1,6 +1,9 @@
+from app import app
 from flask_sqlalchemy import SQLAlchemy
 from flask import session
 from datetime import datetime
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 
 db = SQLAlchemy()
 
@@ -18,6 +21,7 @@ class User(db.Model):
     username = db.Column(db.String(15), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     last_seen = db.Column(db.DateTime)
+    date_created = db.Column(db.DateTime, default=datetime.now)
     wallet = db.relationship("Wallet", backref="user", lazy=True, uselist=False)
     
     # password is to be restricted to only staffs
@@ -31,6 +35,19 @@ class User(db.Model):
             return User.query.filter_by(email=session["email"]).first()
         else:
             return "Anonymous"
+
+    def get_reset_token(self, expires_sec=1800):
+        s = Serializer(app.config["SECRET_KEY"], expires_sec)
+        return s.dumps({"user_id":self.id}).decode("utf-8")
+
+    @staticmethod
+    def verify_reset_token(token):
+        s = Serializer(app.config["SECRET_KEY"])
+        try:
+            user_id = s.loads(token)["user_id"]
+        except:
+            return None
+        return User.query.get(user_id)
     def __str__(self):
         return f"{self.last_name.capitalize()} {self.first_name.capitalize()}"
 
@@ -41,6 +58,7 @@ class Wallet(db.Model):
     btc_address = db.Column(db.String(255), nullable=False, default=" ")
     eth_address = db.Column(db.String(255), nullable=False, default=" ")
     litecoin_address = db.Column(db.String(255), nullable=False, default=" ")
+    bch_address = db.Column(db.String(255), nullable=False, default=" ")
     transaction = db.relationship("Transaction", backref="wallet", lazy=True)
     currency_id = db.Column(db.Integer, db.ForeignKey("cryptocurrency.id"))
     
@@ -55,7 +73,7 @@ class CryptoCurrency(db.Model):
     displayWithdrawal = db.relationship("DisplayWithdrawal", backref="cryptocurrency", lazy=True)
     image_url = db.Column(db.String(100), nullable=False)
     # plan = db.relationship("SubscriptionPlan", backref="cryptocurrency", lazy=True)
-    # address = db.Column(db.String(255), nullable=False, default=" ")
+    address = db.Column(db.String(255), nullable=False, default=" ")
 
     def __str__(self):
         return f"<CryptoCurrency {self.code} >"

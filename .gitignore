@@ -1,0 +1,11 @@
+__pycache__
+.git
+sqlite3.db
+.vscode
+admin/__pycache__
+app/__pycache__
+auth/__pycache__
+helpers/__pycache__
+models/__pycache__
+wallet/__pycache__
+

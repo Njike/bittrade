@@ -4,7 +4,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     
-    SECRET_KEY = "ike1234789"
+    SECRET_KEY = "SGCX8O[432==99799@@@!!#@##RFDS889&&*"
 
     SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
