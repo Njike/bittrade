@@ -165,7 +165,7 @@ input[type="password"] {
   font-family: "open Sans", sans-serif;
   height: 40px;
   padding: 0 12px;
-  border: none;
+  border: 1px solid #999999;
   font-weight: normal;
   background: #fff;
   transition: .3s;
@@ -2339,4 +2339,13 @@ nav .active a {
   justify-content: center;
   font-weight: 700;
   position: relative;
+}
+
+.deposit-desc {
+  background-color: #ffffff;
+  padding: 1rem 0.5rem;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  
 }

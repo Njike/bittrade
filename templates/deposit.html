@@ -46,6 +46,74 @@
                         <div class="admin_body_bottom">
 
                             <div class="row">
+                                <div class="col-12">
+                
+                                    <div class="accordion my-4" id="accordionExample">
+                                        <p class="deposit-desc">
+                                            You are to make the payment using your preferred mode of payment below.   
+                                        </p>
+                                        <div class="card">
+                                          <div class="card-header" id="headingOne">
+                                            <h5 class="mb-0">
+                                              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                                  BITCOIN - BTC
+                                              </button>
+                                            </h5>
+                                          </div>
+                                      
+                                          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                124wMPf9nSncqhVYFWv2QtNPSmEJAvtHjU
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="card">
+                                          <div class="card-header" id="headingTwo">
+                                            <h5 class="mb-0">
+                                              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                                ETHEREUM - ETH
+                                              </button>
+                                            </h5>
+                                          </div>
+                                          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                0x369c81ef8478acf571482eea3367ff5e52aeca09
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="card">
+                                          <div class="card-header" id="headingThree">
+                                            <h5 class="mb-0">
+                                              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                                BITCOIN CASH - BCH
+                                              </button>
+                                            </h5>
+                                          </div>
+                                          <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                            <div class="card-body">
+                                                qq62su567y5a8lgnqpuqamlqkltygs62evum6p3f52
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <div class="card">
+                                            <div class="card-header" id="headingThree">
+                                              <h5 class="mb-0">
+                                                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                                  LITE COIN - LTC
+                                                </button>
+                                              </h5>
+                                            </div>
+                                            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+                                              <div class="card-body">
+                                                MJjQ13jD1a6ymv8N1AsSPmLWQ1LDTeu7Gg
+                                              </div>
+                                            </div>
+                                          </div>
+                                      </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
                                 <div class="col-md-12">
                                     <h5 class="admin_title white_text text-left">Choose Plan :</h5>
                                 </div>
@@ -165,7 +233,7 @@
 
 
                                                 <img src="{{ url_for('static', filename='images/plan_icon_' + (i+j)|string + '.png') }}" alt="plan_icon"
-                                                    class="img-responsive">
+                                                    class="img-fluid">
                                                 <h4>{{plans[i].description}}</h4>
                                                 <ul>
 
@@ -370,6 +438,7 @@
                                     <div class="row mt-3">
                                         <div class="col-12">
                                             <div class="upload-wrap justify-content-center ">
+                                                <label> Proof of Payment: </label>
                                                 <div class="upload-image">
                                                     <img style="width: 140px; height:120px; border-radius:0.7rem;" id='img-upload' alt="">
 
