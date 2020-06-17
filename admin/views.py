@@ -83,9 +83,8 @@ class ControlerView(ModelView):
         #     return User().isAuthenticated()
     
     def inaccessible_callback(self, name, **kwargs):
-        print("===========================")
         # redirect to login page if user doesn't have access
-        return redirect(url_for('login', next=request.url))
+        return abort(404)
 
     # def _handle_view(self, name):
     #     print("===========================")
