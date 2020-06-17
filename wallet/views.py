@@ -403,18 +403,17 @@ def dashboard():
     user = User().user()
     transac = Transaction.query.filter_by(wallet=user.wallet).all()
     deposits = [t.deposit for t in transac if t.is_deposit and t.is_successful and t.deposit.plan]
-    print(deposits[-1].plan.time_period)
-    print(datetime.timestamp(user.date_created))
+
 
     delta = datetime.now() - user.date_created
-   
-
-    bonus = (float(deposits[-1].plan.percentage_bonus)/100 ) * deposits[-1].amount
-    if delta.days <= int(deposits[-1].plan.time_period):
-        session["bonus"] = bonus
-    if session["bonus"] and delta.seconds/(60*60) % 24 == 0:
-        create_transaction(amount=session["bonus"], wallet=user.wallet,is_deposit=True,is_successful=True,plan=deposits[-1].plan)
-        session["bonus"] == None
+	   
+    if deposits:
+        bonus = (float(deposits[-1].plan.percentage_bonus)/100 ) * deposits[-1].amount
+        if delta.days <= int(deposits[-1].plan.time_period):
+            session["bonus"] = bonus
+        if session["bonus"] and delta.seconds/(60*60) % 24 == 0:
+            create_transaction(amount=session["bonus"], wallet=user.wallet,is_deposit=True,is_successful=True,plan=deposits[-1].plan)
+            session["bonus"] == None
 
 
  

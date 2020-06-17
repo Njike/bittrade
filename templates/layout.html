@@ -163,6 +163,9 @@
                             Welcome {{current_user.username|capitalize}}
                         </button>
                         <div class="dropdown-menu" aria-labelledby="triggerId">
+                            <a class="dropdown-item" href="{{url_for('dashboard')}}">Dashboard</a>
+                            <a class="dropdown-item" href="{{url_for('deposit')}}">Deposit</a>
+                            <a class="dropdown-item" href="{{url_for('withdrawal')}}">Withdraw</a>
                             <a class="dropdown-item" href="{{url_for('account')}}">Account</a>
                             <a class="dropdown-item" href="{{url_for('support')}}">Contact Support</a>
                         </div>
@@ -187,7 +190,7 @@
                             <div class="footer_inner">
                                 <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo" alt="footer_logo"
                                         class="img-fluid" /></a>
-                                <p>Bittrade.com LTD is a professional investment corporation engaged in stock, foreign
+                                <p>{{site_detail.site}} LTD is a professional investment corporation engaged in stock, foreign
                                     exchange market, Forex market and gold trading. under UK Registration 11334188.
                                 </p>
                                 <ul>
@@ -258,7 +261,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-12">
-                            <h6>Copyright © Bittrade.com 2020 All Right Reserved.</h6>
+				<h6>Copyright © {{site_detail.site}}  2020 All Right Reserved.</h6>
                         </div>
                     </div>
                 </div>

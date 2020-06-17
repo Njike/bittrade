@@ -1,4 +1,4 @@
-#!/home/mpiranha/Documents/projects/bittrade/venv/bin/python3
+#!/home/bittrade/bittrade/venv/bin/python3
 #
 # The Python Imaging Library
 # $Id$
