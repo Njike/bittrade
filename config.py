@@ -15,6 +15,10 @@ class Config(object):
     
     SESSION_COOKIE_SECURE = True
 
+    MAIL_SERVER = "smtp.google.com"
+    MAIL_USE_TLS = True
+    
+
 class ProductionConfig(Config):
     pass
 

@@ -12,6 +12,7 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 from helpers.imageHandler import imageHandler, allowed_image
 import json
+import requests
 
 class SupportForm(FlaskForm):
     name = StringField("Your Name", validators=[DataRequired(), Length(min=2)])
@@ -367,9 +368,12 @@ def forgot_password():
     if User().isAuthenticated():
         return redirect(url_for("index"))
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.emai.data )
+        user = User.query.filter_by(email=form.email.data)
+        if not user:
+            flash("Invalid email address","warning")
+            return redirect(request.url)
         flash("A link will be sent sent to your Email","success")
-        return redirect(request.url)
+        return redirect(url_for("login"))
 
     return render_template("forgot-password.html", form=form)
 
@@ -510,7 +514,10 @@ def deposit():
         currency = CryptoCurrency.query.get(cryptocurrency)
         user.wallet.cryptocurrency = currency
 
-        if float(plan.min_depositable) >= amount:
+        res = requests.get(f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency={currency.code}&to_currency=USD&apikey=Y60HOLBBWTXXE4V4")
+        rate = res.json()['Realtime Currency Exchange Rate']['5. Exchange Rate']
+        # print(float(plan.min_depositable)/float(rate))
+        if float(plan.min_depositable)/float(rate) >= amount:
             flash("Amount less than the expected amount for this plan", "warning")
             return redirect(request.url)
         
