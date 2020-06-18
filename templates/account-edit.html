@@ -76,14 +76,14 @@
                                                     {{form.username.label}}
                                                     
                                                     {% if form.username.errors %}
-                                                        {{form.username(disabled="disabled", class="form-control is-invalid")}}  
+						    {{form.username(disabled="disabled", value=current_user.username, class="form-control is-invalid")}}  
                                                         <div class="invalid-feedback">
                                                             {% for error in form.username.errors %}
                                                                 <span>{{error}}</span>
                                                             {% endfor %}
                                                         </div>
                                                     {% else %}
-                                                    {{form.username(disabled="disabled", class="form-control")}}   
+                                                    {{form.username(disabled="disabled", value=current_user.username,class="form-control")}}   
                                                     {% endif %}
                                                   
 
@@ -136,14 +136,14 @@
                                                     {{form.email.label}}
                                                    
                                                     {% if form.email.errors %}
-                                                        {{form.email(disabled="disabled", class="form-control is-invalid")}}  
+						    {{form.email(disabled="disabled", value=current_user.email, class="form-control is-invalid")}}  
                                                         <div class="invalid-feedback">
                                                             {% for error in form.email.errors %}
                                                                 <span>{{error}}</span>
                                                             {% endfor %}
                                                         </div>
                                                     {% else %}
-                                                    {{form.email(disabled="disabled", class="form-control")}}
+                                                    {{form.email(disabled="disabled", value=current_user.email, class="form-control")}}
                                                     {% endif %}
                                                 </div>
                                             </div>
@@ -246,15 +246,21 @@
                                                         <!-- <input type="hidden" name="address" value="{{current_user.wallet.cryptocurrency.address}}"> -->
                                                 </button>
                                               </p>
+					{% if form.current_password.errors or form.new_password.errors or form.confirm_password.errors %}
+				
+                                              <div style="margin: 10px 0 10px;" class="collapse show" id="collapseExample">
+				{% else %}
+				 <div style="margin: 10px 0 10px;" class="collapse" id="collapseExample">
+					 {% endif %}
+                                                <div style="text-align: center;flex-wrap: wrap;flex-direction: column;justify-content: center;align-items: center;" class="card card-body">
+							
 
-                                              <div style="margin: 10px 0 10px;" class="collapse" id="collapseExample">
-                                                <div style="text-align: center;flex-wrap: wrap;flex-direction: row;justify-content: center;" class="card card-body">
-                                                    <div class="col-12 col-lg-6 pl-0 pr-0">
+							<div class="col-12 col-lg-6 pl-0 pr-0">
                                                         <div class="form_box">
                                                             {{form.current_password.label}}
                                                            
                                                             {% if form.current_password.errors %}
-                                                                {{form.current_password(disabled="disabled", class="form-control is-invalid")}}  
+                                                                {{form.current_password(class="form-control is-invalid")}}  
                                                                 <div class="invalid-feedback">
                                                                     {% for error in form.current_password.errors %}
                                                                         <span>{{error}}</span>
@@ -270,7 +276,7 @@
                                                         <div class="form_box">
                                                             {{form.new_password.label}}
                                                            
-                                                            {% if form.current_password.errors %}
+                                                            {% if form.new_password.errors %}
                                                                 {{form.new_password(class="form-control is-invalid")}}  
                                                                 <div class="invalid-feedback">
                                                                     {% for error in form.new_password.errors %}
@@ -288,7 +294,7 @@
                                                             {{form.confirm_password.label}}
                                                            
                                                             {% if form.confirm_password.errors %}
-                                                                {{form.confirm_password(disabled="disabled", class="form-control is-invalid")}}  
+                                                                {{form.confirm_password(class="form-control is-invalid")}}  
                                                                 <div class="invalid-feedback">
                                                                     {% for error in form.confirm_password.errors %}
                                                                         <span>{{error}}</span>

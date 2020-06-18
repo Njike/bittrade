@@ -97,8 +97,21 @@ class SubscriptionPlanView(ControlerView):
     form_excluded_columns = ('wallet', "deposit")
 
 
+def _currency_image_formatter(view, context, model, name):
+        if model.image_url:
+            markupstring = f"<a href='{url_for('get_upload', filename=model.image_url)}'>{url_for('get_upload', filename=model.image_url)}</a>"
+            return Markup(markupstring)
+        else:
+            return ""
+
+
 class CryptoCurrencyView(ControlerView):
     form = CryptoCurrencyForm
+
+    column_formatters = {
+        "image_url": _currency_image_formatter
+    }
+
 
 
     def update_model(self, form, model):
@@ -149,7 +162,7 @@ class CryptoCurrencyView(ControlerView):
             return self.model
 
 
-def _user_formatter(view, context, model, name):
+def _proof_formatter(view, context, model, name):
         if model.proof:
             markupstring = f"<a href='{url_for('get_upload', filename=model.proof)}'>{url_for('get_upload', filename=model.proof)}</a>"
             return Markup(markupstring)
@@ -167,7 +180,7 @@ class TransactionView(ControlerView):
     form = TransactionForm
     
     column_formatters = {
-        "proof": _user_formatter
+        "proof": _proof_formatter
     }
     
     def update_model(self, form, model):

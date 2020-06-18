@@ -38,12 +38,14 @@
                                             <li>
                                                 <h6>Withdraw Total<span>{{detail["withdrawals"]|sum}} <small>{{current_user.wallet.cryptocurrency.code}}</small></span></h6>
                                             </li>
-
+					
+					    {% if detail["withdrawals"] %}
 
                                             <li>
                                                 <h6>Last Withdrawal<span>{{detail["withdrawals"]|last}} <small>{{current_user.wallet.cryptocurrency.code}}</small></span></h6>
                                             </li>
-
+					    
+					     {% endif %}
 
 
                                         </ul>

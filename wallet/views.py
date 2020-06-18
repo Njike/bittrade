@@ -58,8 +58,8 @@ class AccountForm(FlaskForm):
     def validate_current_password(self, password):
         user = User().user()
         print(password.data)
-        if password.data and password.data != user.password:
-            raise ValidationError("Invalid password, please input the currect passowrd")
+        if password.data and not sha256_crypt.verify(password.data, user.password):
+            raise ValidationError("Invalid password, please input the correct passowrd")
 
     # def validate_new_password(self, password):
     #     if not self.current_password.data:
@@ -429,7 +429,7 @@ def account():
     form = AccountForm()
     user = User().user()
 
-    if request.method == "POST" and form.validate_on_submit():
+    if form.validate_on_submit():
 
         user.first_name = form.firstname.data
         user.last_name = form.lastname.data
@@ -438,11 +438,14 @@ def account():
         user.wallet.eth_address = form.eth_address.data
         user.wallet.litecoin_address = form.litecoin_address.data
         user.wallet.bch_address = form.bch_address.data
-        if form.current_password.data and form.current_password.data != user.password:
+        if form.current_password.data and sha256_crypt.verify(form.current_password.data, user.password):
+            if sha256_crypt.verify(form.new_password.data, user.password):
+                flash("Choose a new password different from the current password", "warning")
+                return redirect("/account/") 
             user.password = sha256_crypt.encrypt(str(form.new_password.data))
-        elif form.current_password.data and form.current_password.data == user.password:
-            flash("Choose a new password different from the current password", "warning")
-            return redirect(request.url)
+        elif form.current_password.data and not sha256_crypt.verify(form.current_password.data, user.password):
+            flash("Please correctly input your current password", "warning")
+            return redirect(url_for(request.url))
             
 
         
@@ -576,16 +579,16 @@ def withdrawal():
             crypto = user.wallet.cryptocurrency
           
             if crypto.code == "BTC" and not user.wallet.btc_address.strip():
-                flash(f"Please updade your Bitcoin address","warning")
+                flash(f"Please update your Bitcoin address","warning")
                 return redirect(url_for("account", next="withdrawal"))
             elif crypto.code == "ETH" and not user.wallet.eth_address.strip():
-                flash(f"Please updade your Ethereum address","warning")
+                flash(f"Please update your Ethereum address","warning")
                 return redirect(url_for("account", next="withdrawal"))
             elif crypto.code == "LTC" and not user.wallet.litecoin_address.strip():
-                flash(f"Please updade your Litecoin address","warning")
+                flash(f"Please update your Litecoin address","warning")
                 return redirect(url_for("account", next="withdrawal"))
             elif crypto.code == "BCH" and not user.wallet.bch_address.strip():
-                flash(f"Please updade your Bitcoin Cash address","warning")
+                flash(f"Please update your Bitcoin Cash address","warning")
                 return redirect(url_for("account", next="withdrawal"))
         else:
             flash("Sorry, you dont have any actiive deposit", "warning")
