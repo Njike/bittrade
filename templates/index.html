@@ -34,6 +34,10 @@
                                                             <a href="{{ url_for('register') }}" class="btn btn-secondary"
                                                                 data-interval="200"
                                                                 data-animation="animated bounceInUp">Register Now</a>
+
+                                                                <a href="https://t.me/BitTradeeBot" class="btn btn-primary mt-2"
+                                                          data-interval="200"
+                                                          data-animation="animated bounceInUp">Telegram Support</a>
       
                                                             {% endif %}
       
@@ -58,6 +62,10 @@
                                                       <a href="{{ url_for('register') }}" class="btn btn-secondary"
                                                           data-interval="200"
                                                           data-animation="animated bounceInUp">Register Now</a>
+
+                                                          <a href="https://t.me/BitTradeeBot" class="btn btn-primary mt-2"
+                                                          data-interval="200"
+                                                          data-animation="animated bounceInUp">Telegram Support</a>
 
 
 
@@ -228,7 +236,7 @@ var cps = {};
         
         
         
-                                            <a class="btn btn-default" href="javascript:openCalculator('{{i + j}}')">Calculate</a>
+                                            <a class="btn btn-default" href="javascript:openCalculator('{{i + j}}')" data-toggle="modal" data-target="#myModal">Calculate</a>
         
         
                                             <script>
@@ -460,6 +468,73 @@ var cps = {};
                           </div>
                       </div>
                   </div>
+              </div>
+              <div class="modal fade" id="myModal">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                  
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                      <!-- <h4 class="modal-title">Modal Heading</h4> -->
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                      <div class="form-group">
+                        <label for="amount">Amount (USD)</label>
+                        <input id="amount" class="form-control" type="text" name="" value="">
+                      </div>
+                      <div class="form-group">
+                        <label for="percentage">Percentage</label>
+                        <select id="percentage" class="form-control" name="" style="color: #fff">
+                          {% for plan in plans %}
+                          <option value="{{plan.percentage_bonus}}">
+                            {{plan.name}} - {{plan.percentage_bonus}}
+                          </option>
+                          {% endfor %}
+                        </select>
+                      </div>
+              
+                      <div class="form-group">
+                        <label>Profit (USD)</label>
+                        <div class="profit-value">
+              
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Total Earning (USD)</label>
+                        <div class="earning-value">
+              
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <!-- Modal footer
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div> -->
+                    <script>
+                      <!--
+                        $('#amount').on('change', function() {
+                          var profit = ((parseInt($('#percentage').val()) / 100) * parseInt($('#amount').val()));
+                          $('.profit-value').text(Math.floor(profit));
+                          $('.earning-value').text(profit + parseInt($('#amount').val()));
+                          // $('#percentage').val();
+                          // $('#amount').val();
+                        });
+              
+                        $('#percentage').on('change', function() {
+                          var profit = ((parseInt($('#percentage').val()) / 100) * parseInt($('#amount').val()));
+                          $('.profit-value').text(Math.floor(profit));
+                          $('.earning-value').text(profit + parseInt($('#amount').val()));
+                          // $('#percentage').val();
+                          // $('#amount').val();
+                        });
+                      -->
+                    </script>
+                  </div>
+                </div>
               </div>
           </section>
 

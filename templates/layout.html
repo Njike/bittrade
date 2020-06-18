@@ -26,6 +26,7 @@
 
 
 <body>
+    <script src="{{ url_for('static', filename='js/jquery-3.5.1.min.js') }}"></script>
     <wrapper>
 
         <header>
@@ -194,8 +195,9 @@
                             <div class="footer_inner">
                                 <a href="#"><img src="{{ url_for('static', filename='images/logo.png') }}" class="logo" alt="footer_logo"
                                         class="img-fluid" /></a>
-                                <p>{{site_detail.site}} LTD is a professional investment corporation engaged in stock, foreign
-                                    exchange market, Forex market and gold trading. under UK Registration 11334188.
+                                <p>{{site_detail.site}} is Australia's longest-running provider of digital currency trading services.
+                                    Our intuitive platform gives customers secure access to the world's leading cryptocurrencies, and offers
+                                    commission and 27/7 Support.
                                 </p>
                                 <ul>
                                     <li><i class="fa fa-phone"></i> {{site_detail.phone}}</li>
