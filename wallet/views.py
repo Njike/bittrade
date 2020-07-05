@@ -406,7 +406,7 @@ def dashboard():
 
 
     delta = datetime.now() - user.date_created
-	   
+    session["bonus"] = None	   
     if deposits:
         bonus = (float(deposits[-1].plan.percentage_bonus)/100 ) * deposits[-1].amount
         if delta.days <= int(deposits[-1].plan.time_period):
