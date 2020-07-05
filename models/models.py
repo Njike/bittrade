@@ -3,9 +3,11 @@ from flask_sqlalchemy import SQLAlchemy
 from flask import session
 from datetime import datetime
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+from flask_migrate import Migrate
 
 
 db = SQLAlchemy()
+migrate = Migrate(app, db)
 
 
 
@@ -60,7 +62,12 @@ class Wallet(db.Model):
     litecoin_address = db.Column(db.String(255), nullable=False, default=" ")
     bch_address = db.Column(db.String(255), nullable=False, default=" ")
     transaction = db.relationship("Transaction", backref="wallet", lazy=True)
+    deposit = db.relationship("Deposit", backref="wallet", lazy=True)
+    withdraw = db.relationship("Withdraw", backref="wallet", lazy=True)
     currency_id = db.Column(db.Integer, db.ForeignKey("cryptocurrency.id"))
+
+    def __str__(self):
+        return f"<Wallet {self.user.username} >"
     
 
 class CryptoCurrency(db.Model):
@@ -160,7 +167,7 @@ class Transaction(db.Model):
     deposit = db.relationship("Deposit", backref="transaction", lazy=True, uselist=False)
     withdrawal = db.relationship("Withdraw", backref="transaction", lazy=True, uselist=False)
     wallet_id = db.Column(db.Integer, db.ForeignKey("wallet.id"), nullable=False)
-    proof = db.Column(db.String(125), nullable=False, default="")
+    proof = db.Column(db.String(125), nullable=True, default="")
     is_successful = db.Column(db.Boolean, nullable=False, default=False)
     is_deposit = db.Column(db.Boolean, nullable=False, default=False)
     is_withdrawal = db.Column(db.Boolean, nullable=False, default=False)
@@ -181,20 +188,27 @@ class Transaction(db.Model):
 class Deposit(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     deposit_time = db.Column(db.DateTime, default=datetime.now)
+    time_approved = db.Column(db.DateTime)
     amount = db.Column(db.Float, default=0.0, nullable=False)
+    is_successful = db.Column(db.Boolean, nullable=False, default=False)
     transaction_id = db.Column(db.Integer, db.ForeignKey("transaction.id"), nullable=False)
-    plan_id = db.Column(db.Integer, db.ForeignKey("subscription_plan.id"))
+    plan_id = db.Column(db.Integer, db.ForeignKey("subscription_plan.id"), nullable=False, default=1)
+    wallet_id = db.Column(db.Integer, db.ForeignKey("wallet.id"), nullable=False, default=0)
+    proof = db.Column(db.String(125), nullable=True)
     
     def total(self):
         return sum([ t.amount for t in Deposit.querry.all()])
 
 
-
+# Withdrawal and deposit should have access to wallet, deposit should have access to proof 
 class Withdraw(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Float, default=0.0, nullable=False)
     withdrawal_time = db.Column(db.DateTime, default=datetime.now)
     transaction_id = db.Column(db.Integer, db.ForeignKey("transaction.id"), nullable=False)
+    wallet_id = db.Column(db.Integer, db.ForeignKey("wallet.id"), nullable=False)
+    is_successful = db.Column(db.Boolean, nullable=False, default=False)
+    time_approved = db.Column(db.DateTime)
 
     def total(self):
         return sum([ t.amount for t in Withdraw.querry.all()])

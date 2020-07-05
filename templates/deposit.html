@@ -296,7 +296,7 @@
                                 <div class="deposit_box">
                                     <div class="row">
                                         <div class="col-md-5">
-                                            <div class="deposit_input">
+                                            <div class="deposit_input" style="padding-bottom: 20px;"></div>
                                                 <span>
 
 
@@ -307,15 +307,15 @@
 
 
 
-
-                                                    <input placeholder="Enter amount to spend" type="text" name="amount"
+                                                    <label for="amount">Please enter amount</label>
+                                                    <input placeholder="Enter amount" id="amount" type="text" name="amount"
                                                         value="20.00" class="inpts" size="15">
                                                 </span>
 
 
                                             </div>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-7" style="padding-top: 20px">
                                             <div class="main_balance">
                                                 <h3><sup></sup>{{balance}} <small>{{current_user.wallet.cryptocurrency.code}}</small><span>/ Main Balance</span> <b>
                                                     </b></h3>

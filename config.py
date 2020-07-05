@@ -10,6 +10,12 @@ class Config(object):
     if not os.getenv("FLASK_DEBUG"): 
         SECRET_KEY = config["SECRET_KEY"] 
         SQLALCHEMY_DATABASE_URI = config["SQLALCHEMY_DATABASE_URI"]
+        MAIL_SERVER = config["MAIL_SERVER"]
+        MAIL_PORT = config["MAIL_PORT"]
+        MAIL_USE_TLS = True
+
+        MAIL_USERNAME = config["MAIL_USERNAME"]
+        MAIL_PASSWORD = config["MAIL_PASSWORD"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     UPLOADS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/img/uploads")
@@ -18,12 +24,9 @@ class Config(object):
     
     SESSION_COOKIE_SECURE = True
 
-    MAIL_SERVER = "smtp.google.com"
-    MAIL_USE_TLS = True
     
 
-    MAIL_SERVER = "smtp.google.com"
-    MAIL_USE_TLS = True
+    
     
 
 class ProductionConfig(Config):
@@ -39,6 +42,14 @@ class DevelopmentConfig(Config):
     UPLOADS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "static/img/uploads")
 
     SESSION_COOKIE_SECURE = False
+
+    MAIL_SERVER = "bittradeweb.com"
+    # MAIL_DEFAULT_SENDER = "noreply@firstbankng.com"
+    MAIL_USE_SSL = True
+    MAIL_PORT = 465
+    # MAIL_USE_TLS = True
+    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
+    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
 
 class TestingConfig(Config):
     TESTING = True

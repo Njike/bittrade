@@ -1,6 +1,6 @@
 from app import app
 
-from flask import Flask, render_template, url_for, request, jsonify, redirect, url_for, make_response, flash, send_from_directory, abort, session
+from flask import Flask, render_template, jsonify, url_for, request, jsonify, redirect, url_for, make_response, flash, send_from_directory, abort, session
 
 from models.models import *
 from flask_wtf import FlaskForm
@@ -11,6 +11,7 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 from passlib.hash import sha256_crypt
 from functools import wraps
 from helpers.imageHandler import imageHandler, allowed_image
+from helpers.general import exchange_rate, send_reset_email
 import json
 import requests
 
@@ -73,12 +74,12 @@ class RequestResetForm(FlaskForm):
     def validate_email(self, email):
         user = User.query.filter_by(email=email.data).first()
         if not user:
-            raise ValidationError("No account found")
+            raise ValidationError("Invalid email address")
 
 
 
 class PasswordResetForm(FlaskForm):
-    password1 = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
+    password1 = PasswordField("New Password", validators=[DataRequired(), Length(min=8)])
     password2 = PasswordField("Confirm Password", validators=[DataRequired(), Length(min=8), EqualTo("password1", message='Passwords must match')])
    
 
@@ -157,15 +158,24 @@ def create_transaction(amount, wallet, is_deposit=False, proof="", is_withdrawal
                      is_withdrawal=is_withdrawal, wallet=wallet, proof=proof)
     db.session.add(transac)
     if transac.is_deposit:
+        if not plan:
+            flash("Please select a plan", "warning")
+            return redirect(request.url)
         deposit = Deposit(amount=amount, transaction=transac, plan=plan)
+        deposit.proof = proof
+        deposit.wallet = wallet
+        # if is_successful:
+        #     deposit.is_successful = True
+        #     deposit.time_approved = datetime.now()
         db.session.add(deposit)
     elif transac.is_withdrawal:
-        withdrawal = Withdraw(amount=-amount, transaction=transac)
+        withdrawal = Withdraw(amount=-amount, transaction=transac, wallet=wallet)
+
         db.session.add(withdrawal)
     elif transac.is_deposit and transac.is_withdrawal:
-        deposit = Deposit(amount=amount, transaction=transac)
+        deposit = Deposit(amount=amount, transaction=transac, proof=proof, wallet=wallet, is_successful=is_successful)
         db.session.add(deposit)
-        withdrawal = Withdraw(amount=-amount, transaction=transac)
+        withdrawal = Withdraw(amount=-amount, transaction=transac, wallet=wallet)
         db.session.add(withdrawal)
 
     db.session.commit()
@@ -195,22 +205,24 @@ def index():
     return render_template('index.html', sliders=sliders, deposits=deposits, withdrawals=withdrawals, plans=plans)
 
 
-# @login_required
-# @app.route("/update/", methods=["GET", "POST"])
-# def update():
-#     user = User().user()
-#     transac = Transaction.query.filter_by(wallet=user.wallet).all()
-#     deposits = [t.deposit for t in transac if t.is_deposit and t.is_successful and t.deposit.plan]
-#     print(deposits[-1].plan.time_period)
-#     print(datetime.timestamp(user.date_created))
+@login_required
+@app.route("/data/", methods=["GET"])
+def update():
+    user = User().user()
+    transac = Transaction.query.filter_by(wallet=user.wallet).first()
+    
 
+    toReturn = {"balance":transac.balance(),
+                 "currency":user.wallet.cryptocurrency.code, 
+                 }
+    return jsonify(toReturn)
 
-#     toReturn = {"plan_days":deposits[-1].plan.time_period,
-#                  "user_created_at":datetime.timestamp(user.date_created), 
-#                  "percentage_bonus":deposits[-1].plan.percentage_bonus,
-#                  "amount":deposits[-1].amount}
-#     return json.dumps(toReturn)
-
+@app.route("/sitemap.xml")
+def map():
+    try:
+        return send_from_directory("../static", filename="sitemap.xml", as_attachment=False)
+    except FileNotFoundError:
+        abort(404)
 
 @app.route("/register/", methods=["GET", "POST"])
 def register():
@@ -226,6 +238,7 @@ def register():
 
         if not form.validate_on_submit():
             flash("Please fill in the required fields", "warning")
+            return redirect(request.url)
         
     
 
@@ -368,11 +381,12 @@ def forgot_password():
     if User().isAuthenticated():
         return redirect(url_for("index"))
     if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data)
+        user = User.query.filter_by(email=form.email.data).first()
         if not user:
             flash("Invalid email address","warning")
             return redirect(request.url)
-        flash("A link will be sent sent to your Email","success")
+        send_reset_email(user)
+        flash("A link will be sent sent to your Email","info")
         return redirect(url_for("login"))
 
     return render_template("forgot-password.html", form=form)
@@ -389,9 +403,12 @@ def password_reset(token):
         return redirect(url_for("forgot_password"))
 
     if form.validate_on_submit():
-        pass
-  
         
+        user.password = sha256_crypt.encrypt(str(form.password1.data))
+        db.session.commit()
+        
+        flash("Your password has been changes successfuly","success")
+        return redirect(url_for("login"))
 
     return render_template("reset_password.html", form=form)
 
@@ -406,10 +423,13 @@ def dashboard():
 
 
     delta = datetime.now() - user.date_created
-	   
+    print("Deposits ============", deposits)
+
     if deposits:
         bonus = (float(deposits[-1].plan.percentage_bonus)/100 ) * deposits[-1].amount
+
         if delta.days <= int(deposits[-1].plan.time_period):
+            print("Days ===============", delta.days)
             session["bonus"] = bonus
         if session["bonus"] and delta.seconds/(60*60) % 24 == 0:
             create_transaction(amount=session["bonus"], wallet=user.wallet,is_deposit=True,is_successful=True,plan=deposits[-1].plan)
@@ -516,8 +536,7 @@ def deposit():
         currency = CryptoCurrency.query.get(cryptocurrency)
         user.wallet.cryptocurrency = currency
 
-        res = requests.get(f"https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency={currency.code}&to_currency=USD&apikey=Y60HOLBBWTXXE4V4")
-        rate = res.json()['Realtime Currency Exchange Rate']['5. Exchange Rate']
+        rate = exchange_rate(currency.code)
         # print(float(plan.min_depositable)/float(rate))
         if float(plan.min_depositable)/float(rate) >= amount:
             flash("Amount less than the expected amount for this plan", "warning")
@@ -548,17 +567,18 @@ def deposit_history():
             print()
             return render_template("deposit-history.html", form=form, transac=user.wallet.transaction)
         elif transac == "deposit":
-            d = [tran.deposit for tran in user.wallet.transaction if tran.deposit.plan]
+            d = [tran for tran in Deposit.query.filter_by(wallet=user.wallet).all() if tran.plan]
+            
             return render_template("deposit-history.html", form=form, deposits=d)
         elif transac == "withdrawal":
-            d = [tran.withdrawal for tran in user.wallet.transaction]
+            d = [tran for tran in Withdraw.query.filter_by(wallet=user.wallet)]
             return render_template("deposit-history.html", form=form, withdrawals=d)
-    return render_template("deposit-history.html", form=form)
+    return render_template("deposit-history.html", form=form, transac=user.wallet.transaction)
 
-@app.route("/withdrawals/")
-@login_required
-def withdrawal_history():
-    return render_template("withdraw-history.html")
+# @app.route("/withdrawals/")
+# @login_required
+# def withdrawal_history():
+#     return render_template("withdraw-history.html")
 
 # @app.route("/earnings/")
 # @login_required
@@ -593,13 +613,15 @@ def withdrawal():
         else:
             flash("Sorry, you dont have any actiive deposit", "warning")
             return redirect(request.url)
-        if amount >= balance and balance > 1:
+        if amount >= balance:
             flash("You have no funds to withdraw", "warning")
             return redirect(request.url)
         
-        elif balance > 1:
+        elif amount > 0:
             create_transaction(is_withdrawal=True, amount=amount, wallet=user.wallet)
-            
+        else:
+            flash("Invalid amount please check your balance and input a valid amount", "warning")
+            return redirect(request.url)            
     return render_template("withdrawal.html",form=form)
 
 @app.route("/deposit-list/")
