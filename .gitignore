@@ -1,4 +1,12 @@
-__pycache__
-.vscode
+__pycache__/
+.vscode/
+admin/__pycache__/
+app/__pycache__/
+helpers/__pycache__/
+wallet/__pycache__/
+auth/__pycache__/
+models/__pycache__/
 sqlite3.db
-venv
+venv/
+static/img/uploads/
+migrations/
