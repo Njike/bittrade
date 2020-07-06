@@ -12,8 +12,9 @@ class Config(object):
         SQLALCHEMY_DATABASE_URI = config["SQLALCHEMY_DATABASE_URI"]
         MAIL_SERVER = config["MAIL_SERVER"]
         MAIL_PORT = config["MAIL_PORT"]
+        MAIL_USE_SSL = True
         MAIL_USE_TLS = True
-
+        MAIL_DEFAULT_SENDER = "noreply@bittradeweb.com"
         MAIL_USERNAME = config["MAIL_USERNAME"]
         MAIL_PASSWORD = config["MAIL_PASSWORD"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -43,10 +44,10 @@ class DevelopmentConfig(Config):
 
     SESSION_COOKIE_SECURE = False
 
-    MAIL_SERVER = "bittradeweb.com"
-    # MAIL_DEFAULT_SENDER = "noreply@firstbankng.com"
-    MAIL_USE_SSL = True
-    MAIL_PORT = 465
+    MAIL_SERVER = "localhost"
+    MAIL_DEFAULT_SENDER = "noreply@localhost.com"
+    MAIL_USE_SSL = False
+    MAIL_PORT = 25
     # MAIL_USE_TLS = True
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")
     MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")

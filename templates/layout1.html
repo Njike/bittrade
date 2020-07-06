@@ -3,25 +3,26 @@
 
 {% block info %}
 
-<script>
+<!-- <script>
   document.addEventListener("DOMContentLoaded", () => {    
       fetch("/data")
     .then(res => res.json())
     .then(data => {
-        fetch(`https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=${data.currency}&to_currency=USD&apikey=Y60HOLBBWTXXE4V4`)
+        setInterval(
+        fetct("url")
         .then(res => res.json())
         .then(ex_data => {
             let rate = ex_data['Realtime Currency Exchange Rate']['5. Exchange Rate']
             let amount_usd = rate * data.balance
             console.log(rate, amount_usd, document.querySelector("#usd_balance"));
-            document.querySelector("#usd_balance").innerHTML = amount_usd.toFixed(2) + document.querySelector("#usd_balance").innerHTML;
-        })
+            document.querySelector("#usd_balance").innerHTML = amount_usd.toFixed(2) //+ document.querySelector("#usd_balance").innerHTML;
+        }),1000)
     });
 })
 
 
 
-</script>
+</script> -->
 
 <div class="admin_body_top">
         <div class="row">
@@ -29,12 +30,10 @@
                 <div class="current_balance">
                     <span><img src="{{url_for('static', filename='images/current_bal_icon.png')}}" alt="current_bal_icon"
                             class="img-responsive"></span>
-                            {% if current_user.wallet.cryptocurrency %}
-                    <h4>Current Balance <span style="position: relative"><sup></sup>{{balance}} <small>{{current_user.wallet.cryptocurrency.code}}</small>  <div id="usd_balance" style="position: absolute; top:0; left:400px"> <small>USD</small></span></div></h4>
-                    {% else %}
+                         
                     <h4>Current Balance <span style="position: relative"><sup></sup>{{balance}} <small>{{current_user.wallet.cryptocurrency.code}}</small>  </h4>
 
-                    {% endif %}
+                   
 
                 </div>
             </div>
