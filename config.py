@@ -14,7 +14,7 @@ class Config(object):
         MAIL_PORT = config["MAIL_PORT"]
         MAIL_USE_SSL = True
         MAIL_USE_TLS = True
-        MAIL_DEFAULT_SENDER = "noreply@bittradeweb.com"
+        MAIL_DEFAULT_SENDER = ("bittradeweb", "noreply@bittradeweb.com")
         MAIL_USERNAME = config["MAIL_USERNAME"]
         MAIL_PASSWORD = config["MAIL_PASSWORD"]
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -49,8 +49,8 @@ class DevelopmentConfig(Config):
     MAIL_USE_SSL = False
     MAIL_PORT = 25
     # MAIL_USE_TLS = True
-    MAIL_USERNAME = os.getenv("MAIL_USERNAME")
-    MAIL_PASSWORD = os.getenv("MAIL_PASSWORD")
+    MAIL_USERNAME = None
+    MAIL_PASSWORD = None
 
 class TestingConfig(Config):
     TESTING = True
