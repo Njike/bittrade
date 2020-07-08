@@ -13,7 +13,7 @@ def exchange_rate(crypto):
 def send_reset_email(user):
     token = user.get_reset_token()
     print(token, "=============Token")
-    msg = Message("Password Reset Request", sender=("no reply","noreply@firstbankngr.com"), recipients=["ike.nmehielle@yahoo.com"])
+    msg = Message("Password Reset Request",  recipients=[user.email])
     msg.body = f"""To reset your password, visit the following link:
 {url_for("password_reset", token=token, _external=True)} 
 
