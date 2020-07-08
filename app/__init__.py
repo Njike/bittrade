@@ -1,6 +1,9 @@
 from flask import Flask
+from helpers.general import mail
+
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
+
 
 from models.models import db
 
@@ -14,7 +17,10 @@ elif app.config["TESTING"]:
 else:
     app.config.from_object("config.ProductionConfig")
 
+
+
 db.init_app(app)
+mail.init_app(app)
 
 
 

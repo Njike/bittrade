@@ -23,7 +23,13 @@
                                 }
                             </script>
 
+                            <style>
+                            
+                                .item.status{
+                                    text-align: right;
+                                }
 
+                            </style>
 
 
                             <form method="post" name="opts"><input type="hidden" name="form_id"
@@ -45,9 +51,17 @@
                                             <div class="select_box">
 
                                                 <select name="type" class="inpts" onchange="document.opts.submit();">
-                                                    <option value="">All transactions</option>
-                                                    <option value="deposit" selected="">Deposit</option>
+                                                    <option value="" >All transactions</option>
+                                                    {% if deposits %}
+                                                    <option value="deposit" selected>Deposit</option>
+                                                    {% else %}
+                                                    <option value="deposit">Deposit</option>
+                                                    {% endif %}
+                                                    {% if withdrawals %}
+                                                    <option value="withdrawal" selected>Withdrawal</option>
+                                                    {% else %}
                                                     <option value="withdrawal">Withdrawal</option>
+                                                    {% endif %}
                                                   
                                                   
                                                 </select>
@@ -56,7 +70,7 @@
 
 
                                         {% if transac %}
-                                        {% for t in transac %}
+                                        {% for t in transac|reverse %}
                                         
                                         <div class="table-responsive">
                                                             <div class="deptab">
@@ -70,17 +84,17 @@
                                                                             {% if t.deposit %}
                                                                             <td colspan="8"><b>DEPOSIT</b>
                                                                             </td>
-                                                                            <td width="200" class="item" align="right">${{t.deposit.amount}}</td>
+                                                                            <td width="100" class="item" align="right">${{t.deposit.amount}}</td>
                                                                                     {% elif t.withdrawal %}
                                                                                     <td colspan="8"><b>WITHDRAWAL</b>
                                                                                     </td>
-                                                                                    <td width="200" class="item" align="right">${{t.withdrawal.amount}}</td>
+                                                                                    <td width="100" class="item" align="right">${{t.withdrawal.amount}}</td>
                                                                                     {% endif %}
                                                                                 
                                                                                 {% if t.is_successful %}
-                                                                                <td width="100" class="item" align="right">SUCCESFUL</td>
+                                                                                <td width="200" class="item status" align="right">SUCCESFUL</td>
                                                                                 {% elif not t.is_successful %}
-                                                                                <td width="100" class="item" align="right">PENDING</td>
+                                                                                <td width="200" class="item status" align="right">PENDING</td>
                                                                                 {% endif %}
                                                                         </tr>
                                                                     </tbody>
@@ -92,7 +106,7 @@
                                                         {% endif %}
 
                                                         {% if deposits %}
-                                        {% for d in deposits %}
+                                        {% for d in deposits|reverse %}
                                         
                                         <div class="table-responsive">
                                                             <div class="deptab">
@@ -100,12 +114,18 @@
                                                                     width="100%">
                                                                     <tbody>
                                                                         <tr>
-                                                                            
+                                                                            <td colspan="8"><b>DEPOSIT</b>
+                                                                            </td>
 
                                                                             
                                                                             
-                                                                            <td width="200" class="item" align="right">${{d.amount}}</td>
+                                                                            <td width="100" class="item" align="right">${{d.amount}}</td>
                                                                                   
+                                                                            {% if d.is_successful %}
+                                                                                <td width="200" class="item status" align="right">SUCCESFUL</td>
+                                                                                {% elif not d.is_successful %}
+                                                                                <td width="200" class="item status" align="right">PENDING</td>
+                                                                                {% endif %}
                                                                                 
                                                                                
                                                                         </tr>
@@ -119,7 +139,7 @@
 
 
                                                         {% if withdrawals %}
-                                                        {% for w in withdrawal %}
+                                                        {% for w in withdrawals|reverse %}
                                                         
                                                         <div class="table-responsive">
                                                                             <div class="deptab">
@@ -128,10 +148,21 @@
                                                                                     <tbody>
                                                                                         <tr>
                                                                                             
+                                                                                            <td colspan="8"><b>WITHDRAWAL</b>
+                                                                                            </td>
                 
+                                                                                            <td width="100" class="item" align="right">${{w.amount}}</td>
+
+                                                                                            
+                                                                                                  
+                                                                                            {% if w.is_successful %}
+                                                                                                <td width="200" class="item status" align="right">SUCCESFUL</td>
+                                                                                                {% elif not w.is_successful %}
+                                                                                                <td width="200" class="item status" align="right">PENDING</td>
+                                                                                                {% endif %}
                                                                                             
                                                                                             
-                                                                                            <td width="200" class="item" align="right">${{w.amount}}</td>
+                                                                                            
                                                                                                   
                                                                                                 
                                                                                                 

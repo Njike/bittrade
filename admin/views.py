@@ -5,7 +5,7 @@ from datetime import datetime
 from models.models import *
 import os
 from helpers.imageHandler import imageHandler
-from flask_admin import Admin
+from flask_admin import Admin, expose, AdminIndexView
 from flask_admin.contrib.sqla import ModelView
 from flask_wtf import FlaskForm
 from wtforms import StringField, BooleanField, FileField, PasswordField, HiddenField, IntegerField, DateTimeField
@@ -14,7 +14,19 @@ from wtforms.validators import DataRequired, Length, Email
 from helpers.imageHandler import allowed_image, imageHandler
 import imghdr
 
-admin = Admin(app)
+class MyAdminIndexView(AdminIndexView):
+    @expose("/")
+    def index(self):
+        
+        if not User().isAuthenticated() :
+           
+            return abort(404)
+        elif User().isAuthenticated() and not User().user().super_user:
+            return abort(404)
+
+        return self.render('admin/index.html')
+
+admin = Admin(app, index_view=MyAdminIndexView())
 
 
 def pic_validation(form, field):
@@ -75,7 +87,10 @@ def get_upload(filename):
     except FileNotFoundError:
         abort(404)
 
+
+
 class ControlerView(ModelView):
+    
     def is_accessible(self):
         # if User.query.all()
         return User().isAuthenticated() and User().user().super_user
@@ -176,12 +191,20 @@ class WalletView(ControlerView):
 
 class TransactionView(ControlerView):
 
-    
-    form = TransactionForm
+    can_create = False
+    can_edit = False
+    # form = TransactionForm
+    form_excluded_columns = ("deposit", "withdrawal")
     
     column_formatters = {
         "proof": _proof_formatter
     }
+
+    # @expose('/new/', methods=['GET'])
+    # def create_view(self):
+    #     # render your view here
+
+    #     return self.render("admin/transaction_create.html")
     
     def update_model(self, form, model):
         """
@@ -211,16 +234,226 @@ class TransactionView(ControlerView):
             else:
                 model.is_withdrawal = False
                 model.is_deposit = False   
+                flash("Please select the type of transaction to continue","warning")
+                return False
             model.proof = form.proof.data
-            model.is_successful = form.is_successful.data
-            model.transaction_time = form.transaction_time.data
+            
+            # if form.is_successful.data:
+            #     model.deposit.successful_tine = datetime.now
+            if not model.is_successful and form.is_successful.data:
+                model.is_successful = form.is_successful.data
+                model.transaction_time = form.transaction_time.data
+            else:
+                flash("Transaction has already been successful","warning")
 
             if model.is_deposit:
                 deposit = Deposit.query.filter_by(transaction=model)
                 deposit.amount=model.amount
+                if model.is_successful:
+                    deposit.time_approved = datetime.now()
+                    deposit.is_successful = model.is_successful
+                deposit.wallet = model.wallet
+                deposit.proof = model.proof
+                deposit.plan = model.plan
             elif model.is_withdrawal:
-                withdrawal = Withdraw.query.filter_by(transaction=model)
-                withdrawal.amount=abs(model.amount)
+                if float(form.amount.data) <= sum([t.amount for t in Transaction.query.filter_by(wallet=form.wallet.data) if t.is_successful]):
+                    withdrawal = Withdraw.query.filter_by(transaction=model, wallet=model.wallet)
+                    withdrawal.amount=abs(model.amount)
+                    
+                    if model.is_successful:
+                        
+                        withdrawal.is_successful = model.is_successful
+                        withdrawal.time_approved = datetime.now()
+                        print("withdrawal.is_successful ============", withdrawal.is_successful, withdrawal.time_approved)
+                        return False
+                else:
+                    flash("User balance is not up to that amount","warning")
+                    return False
+    
+            self.session.commit()
+            return True
+        return False
+
+    
+    def delete_model(self, model):
+        """
+            Delete model.
+            :param model:
+                Model to delete
+        """
+        try:
+            if model.is_deposit:
+                db.session.delete(model.deposit)
+            elif model.is_withdrawal:
+                db.session.delete(model.withdrawal)
+            db.session.delete(model)
+            db.session.commit()
+            
+            # Add your custom logic here and don't forget to commit any changes e.g. 
+            # self.session.commit()
+        except Exception as ex:
+            if not self.handle_view_exception(ex):
+                flash(gettext('Failed to delete record. %(error)s', error=str(ex)), 'error')
+                log.exception('Failed to delete record.')
+
+            self.session.rollback()
+
+            return False
+        else:
+            self.after_model_delete(model)
+
+        return True
+
+    def create_model(self, form):
+        """
+            Create model from the form.
+
+            Returns the model instance if operation succeeded.
+
+            Must be implemented in the child class.
+
+            :param form:
+                Form instance
+        """
+        print( self.model)
+        if form.data and form.validate:
+            model = self.model()
+            
+            model.wallet = form.wallet.data
+            if form.is_withdrawal.data:
+                if float(form.amount.data) <= sum([t.amount for t in Transaction.query.filter_by(wallet=form.wallet.data) if t.is_successful]):
+                    model.amount = -abs(float(form.amount.data))
+                    model.is_withdrawal = form.is_withdrawal.data
+                    model.is_deposit = False 
+                else:
+                    flash("User balance is not up to that amount","warning")
+                    return False
+            elif form.is_deposit.data:
+            
+                model.amount = form.amount.data
+                model.is_withdrawal = False
+                model.is_deposit = form.is_deposit.data
+                
+            else:     
+                model.is_withdrawal = False
+                model.is_deposit = False
+                flash("Please select the type of transaction to continue","warning")
+                return False
+                
+            model.proof = form.proof.data
+            model.is_successful = form.is_successful.data
+            model.transaction_time = form.transaction_time.data
+
+            self.session.add(model)
+
+            if model.is_deposit:
+                deposit = Deposit(amount=model.amount, transaction=model)
+                deposit.is_successful = model.is_successful
+                deposit.wallet = model.wallet
+                deposit.proof = model.proof
+                print("hello")
+                if model.is_successful:
+                    deposit.time_approved = datetime.now()
+                self.session.add(deposit)
+                self.session.commit()
+                return "Hello"
+                return redirect(f"/admin/deposit/edit/?id={deposit.id}")
+                
+                
+                try:
+                    deposit.plan = model.plan
+                except:
+                    flash(f"Please to add deposit follow this <a href='/admin/deposit'>link</a>")
+                    return False
+                
+            elif model.is_withdrawal:
+                withdrawal = Withdraw(amount=abs(model.amount), transaction=model, wallet=model.wallet)
+                if model.is_successful:
+                        withdrawal.is_successful = model.is_successful
+                        withdrawal.time_approved = datetime.now()
+                self.session.add(withdrawal)
+                self.session.commit()
+                return redirect(f"/admin/withdraw/edit/?id={withdrawal.id}")
+                
+                self.session.add(withdrawal)
+
+
+            self.session.commit()
+  
+            return self.model
+
+class DepositView(ControlerView):
+    form_edit_rules = []
+    column_formatters = {
+        "proof": _proof_formatter
+    }
+    form_excluded_columns = ("time_approved","transaction")
+
+    def delete_model(self, model):
+        """
+            Delete model.
+            :param model:
+                Model to delete
+        """
+        try:
+            
+            db.session.delete(model.transaction)
+            db.session.delete(model)
+            db.session.commit()
+            
+            # Add your custom logic here and don't forget to commit any changes e.g. 
+            # self.session.commit()
+        except Exception as ex:
+            if not self.handle_view_exception(ex):
+                flash(gettext('Failed to delete record. %(error)s', error=str(ex)), 'error')
+                log.exception('Failed to delete record.')
+
+            self.session.rollback()
+
+            return False
+        else:
+            self.after_model_delete(model)
+
+        return True
+
+
+    def update_model(self, form, model):
+        """
+            Update model from the form.
+
+            Returns `True` if operation succeeded.
+
+            Must be implemented in the child class.
+
+            :param form:
+                Form instance
+            :param model:
+                Model instance
+        """
+        # print("model =============== ", form.amount)
+        if form.data and form.validate:
+            model.transaction.wallet = form.wallet.data
+            model.transaction.amount = float(form.amount.data)
+            model.transaction.is_deposit = True
+            if not model.is_successful and form.is_successful.data:
+                model.time_approved = datetime.now()
+
+                model.transaction.is_successful = True
+                model.is_successful = True
+            elif model.is_successful and form.is_successful.data:
+                flash("Deposit has already been successful","warning")
+            
+            model.wallet = form.wallet.data
+            model.amount = float(form.amount.data)
+
+            model.proof = form.proof.data
+            print("Proof ====", form.proof.data)
+            model.transaction.proof = form.proof.data
+            
+           
+            model.transaction.transaction_time = datetime.now()
+
+    
 
             self.session.commit()
             return True
@@ -242,42 +475,167 @@ class TransactionView(ControlerView):
         print( self.model)
         if form.data and form.validate:
             model = self.model()
-            
+            transaction = Transaction()
+            model.transaction = transaction
+            transaction.wallet = form.wallet.data
             model.wallet = form.wallet.data
-            if form.is_withdrawal.data:
-                model.amount = -form.amount.data
-                model.is_withdrawal = form.is_withdrawal.data
-                model.is_deposit = False 
-            elif form.is_deposit.data:
-                model.amount = form.amount.data
-                model.is_withdrawal = False
-                model.is_deposit = form.is_deposit.data
-            else:     
-                model.is_withdrawal = False
-                model.is_deposit = False
-            model.proof = form.proof.data.upper()
+        
+            model.amount = float(form.amount.data)
+            transaction.amount = float(form.amount.data)
+            transaction.is_withdrawal = False
+            transaction.is_deposit = True
+            if not model.is_successful and form.is_successful.data:
+                transaction.is_successful = True
+                model.is_successful = True
+                model.time_approved = datetime.now()
+
+            model.is_withdrawal = False
+  
+            model.proof = form.proof.data
+            transaction.prrof = form.proof.data
             model.is_successful = form.is_successful.data
-            model.transaction_time = form.transaction_time.data
+            transaction.transaction_time = datetime.now()
 
             self.session.add(model)
+            self.session.add(transaction)        
 
-            if model.is_deposit:
-                deposit = Deposit(amount=model.amount, transaction=model)
-                self.session.add(deposit)
-            elif model.is_withdrawal:
-                withdrawal = Withdraw(amount=abs(model.amount), transaction=model)
-                self.session.add(withdrawal)
-
-
+            
             self.session.commit()
   
             return self.model
 
-class DepositView(ControlerView):
-    form_edit_rules = []
-
 class WithdrawView(ControlerView):
     form_edit_rules = []
+
+    form_excluded_columns = ("transaction")
+
+    def delete_model(self, model):
+        """
+            Delete model.
+            :param model:
+                Model to delete
+        """
+        try:
+            
+            db.session.delete(model.transaction)
+            db.session.delete(model)
+            db.session.commit()
+            
+            # Add your custom logic here and don't forget to commit any changes e.g. 
+            # self.session.commit()
+        except Exception as ex:
+            if not self.handle_view_exception(ex):
+                flash(gettext('Failed to delete record. %(error)s', error=str(ex)), 'error')
+                log.exception('Failed to delete record.')
+
+            self.session.rollback()
+
+            return False
+        else:
+            self.after_model_delete(model)
+
+        return True
+
+
+    def update_model(self, form, model):
+        """
+            Update model from the form.
+
+            Returns `True` if operation succeeded.
+
+            Must be implemented in the child class.
+
+            :param form:
+                Form instance
+            :param model:
+                Model instance
+        """
+        # print("model =============== ", form.amount)
+        if form.data and form.validate:
+            model.transaction.wallet = form.wallet.data
+            model.wallet = form.wallet.data
+            if float(form.amount.data) <= sum([t.amount for t in Transaction.query.filter_by(wallet=form.wallet.data) if t.is_successful]): 
+                model.transaction.amount = -abs(float(form.amount.data))
+                model.amount = abs(float(form.amount.data))
+            else:
+                flash("User balance is not up to that amount","warning")
+                return False
+            model.transaction.is_withdrawal = True
+            
+          
+            model.withdrawal_time = datetime.now()
+
+            if form.is_successful.data and not model.is_successful:
+                model.is_successful = True
+                model.transaction.is_successful = True
+                model.time_approved = datetime.now()
+            elif form.is_successful.data and mode.is_successful:
+                flash("Withdrawal has allready been successful")
+                
+            
+          
+                         
+            # model.proof = form.proof.data
+            
+            
+           
+            model.transaction.transaction_time = datetime.now()
+
+    
+
+            self.session.commit()
+            return True
+        return False
+
+
+
+    def create_model(self, form):
+        """
+            Create model from the form.
+
+            Returns the model instance if operation succeeded.
+
+            Must be implemented in the child class.
+
+            :param form:
+                Form instance
+        """
+        print( self.model)
+        if form.data and form.validate:
+            model = self.model()
+            transaction = Transaction()
+            model.transaction = transaction
+            transaction.wallet = form.wallet.data
+            model.wallet = form.wallet.data
+        
+            if float(form.amount.data) <= sum([t.amount for t in Transaction.query.filter_by(wallet=form.wallet.data) if t.is_successful]): 
+                model.transaction.amount = -abs(float(form.amount.data))
+                model.amount = abs(float(form.amount.data))
+            else:
+                flash("User balance is not up to that amount","warning")
+                return False
+            transaction.is_withdrawal = True
+    
+            if form.is_successful.data:
+                transaction.is_successful = True
+                model.is_successful = True
+                model.time_approved = datetime.now()
+
+            
+  
+            # model.proof = form.proof.data
+            # transaction.prrof = form.proof.data
+           
+            transaction.transaction_time = datetime.now()
+
+            self.session.add(model)
+            self.session.add(transaction)        
+
+            
+            self.session.commit()
+  
+            return self.model
+
 
 
 admin.add_view(ControlerView(User, db.session))
