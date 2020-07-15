@@ -157,7 +157,15 @@ def create_transaction(amount, wallet, is_deposit=False, proof="", is_withdrawal
     transac = Transaction(is_successful=is_successful,amount=amount, is_deposit=is_deposit,\
                      is_withdrawal=is_withdrawal, wallet=wallet, proof=proof)
     db.session.add(transac)
-    if transac.is_deposit:
+
+    if transac.is_deposit and transac.is_withdrawal:
+        deposit = Deposit(amount=amount, transaction=transac, proof=proof, wallet=wallet, is_successful=is_successful)
+        db.session.add(deposit)
+        withdrawal = Withdraw(amount=-amount, transaction=transac, wallet=wallet)
+        db.session.add(withdrawal)
+        
+
+    elif transac.is_deposit:
         if not plan:
             flash("Please select a plan", "warning")
             return redirect(request.url)
@@ -170,13 +178,6 @@ def create_transaction(amount, wallet, is_deposit=False, proof="", is_withdrawal
         db.session.add(deposit)
     elif transac.is_withdrawal:
         withdrawal = Withdraw(amount=-amount, transaction=transac, wallet=wallet)
-
-        db.session.add(withdrawal)
-    elif transac.is_deposit and transac.is_withdrawal:
-        deposit = Deposit(amount=amount, transaction=transac, proof=proof, wallet=wallet, is_successful=is_successful)
-        db.session.add(deposit)
-        withdrawal = Withdraw(amount=-amount, transaction=transac, wallet=wallet)
-        db.session.add(withdrawal)
 
     db.session.commit()
 
