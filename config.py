@@ -13,7 +13,7 @@ class Config(object):
         MAIL_SERVER = config["MAIL_SERVER"]
         MAIL_PORT = config["MAIL_PORT"]
         MAIL_USE_SSL = True
-        MAIL_USE_TLS = True
+       # MAIL_USE_TLS = True
         MAIL_DEFAULT_SENDER = ("bittradeweb", "noreply@bittradeweb.com")
         MAIL_USERNAME = config["MAIL_USERNAME"]
         MAIL_PASSWORD = config["MAIL_PASSWORD"]

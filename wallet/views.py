@@ -11,7 +11,7 @@ from wtforms_sqlalchemy.fields import QuerySelectField
 from passlib.hash import sha256_crypt
 from functools import wraps
 from helpers.imageHandler import imageHandler, allowed_image
-from helpers.general import exchange_rate, send_reset_email
+from helpers.general import exchange_rate, send_reset_email, send_register_email
 import json
 import requests
 
@@ -242,9 +242,9 @@ def verifyEmail():
         if user:
             # flash("Invalid email address","warning")
             return redirect(url_for("login"))
-        send_register_email(form.email.data)
+        send_register_email(User(),form.email.data)
         flash("A link will be sent sent to your Email","info")
-        return redirect(url_for("index"))
+        return redirect(request.url)
 
 
     return render_template("forgot-password1.html", form=form)
@@ -255,6 +255,7 @@ def register(token):
     if User().isAuthenticated():
         return redirect(url_for("dashboard"))
     form = RegistratonForm()
+    form.email.data = request.args.get("email")
     cryptocurrency = CryptoCurrency.query.all()
 
     
