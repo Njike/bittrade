@@ -84,11 +84,11 @@
                                                                             {% if t.deposit %}
                                                                             <td colspan="8"><b>DEPOSIT</b>
                                                                             </td>
-                                                                            <td width="100" class="item" align="right">${{t.deposit.amount}}</td>
+                                                                            <td width="100" class="item" align="right">{{t.deposit.amount}}{{t.wallet.cryptocurrency.code}}</td>
                                                                                     {% elif t.withdrawal %}
                                                                                     <td colspan="8"><b>WITHDRAWAL</b>
                                                                                     </td>
-                                                                                    <td width="100" class="item" align="right">${{t.withdrawal.amount}}</td>
+                                                                                    <td width="100" class="item" align="right">{{t.withdrawal.amount|abs}}{{t.wallet.cryptocurrency.code}}</td>
                                                                                     {% endif %}
                                                                                 
                                                                                 {% if t.is_successful %}
@@ -119,7 +119,7 @@
 
                                                                             
                                                                             
-                                                                            <td width="100" class="item" align="right">${{d.amount}}</td>
+                                                                            <td width="100" class="item" align="right">{{d.amount}}{{d.wallet.cryptocurrency.code}}</td>
                                                                                   
                                                                             {% if d.is_successful %}
                                                                                 <td width="200" class="item status" align="right">SUCCESFUL</td>
@@ -151,7 +151,7 @@
                                                                                             <td colspan="8"><b>WITHDRAWAL</b>
                                                                                             </td>
                 
-                                                                                            <td width="100" class="item" align="right">${{w.amount}}</td>
+                                                                                            <td width="100" class="item" align="right">{{w.amount|abs}}{{w.wallet.cryptocurrency.code}}</td>
 
                                                                                             
                                                                                                   

@@ -134,7 +134,7 @@ def g():
 
 
     
-    return {"detail":detail,"site_detail":site_detail, "current_user":User().user(), "balance":Transaction.query.filter_by(wallet=User().user().wallet).first().balance(), "date":datetime.now()
+    return {"detail":detail,"site_detail":site_detail, "current_user":User().user(), "balance":round(Transaction.query.filter_by(wallet=User().user().wallet).first().balance(),6), "date":datetime.now()
 }
 
 
@@ -179,6 +179,8 @@ def create_transaction(amount, wallet, is_deposit=False, proof="", is_withdrawal
     elif transac.is_withdrawal:
         withdrawal = Withdraw(amount=-amount, transaction=transac, wallet=wallet)
 
+        db.session.add(withdrawal)
+    
     db.session.commit()
 
 def update_transaction(amount, proof, wallet, is_deposit=False, is_withdrawal=False):
@@ -226,7 +228,25 @@ def map():
         abort(404)
 
 @app.route("/register/", methods=["GET", "POST"])
-def register():
+def verifyEmail():
+    form = RequestResetForm()
+
+    if User().isAuthenticated():
+        return redirect(url_for("index"))
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        if user:
+            # flash("Invalid email address","warning")
+            return redirect(url_for("login"))
+        send_register_email(form.email.data)
+        flash("A link will be sent sent to your Email","info")
+        return redirect(url_for("index"))
+
+
+    return render_template("forgot-password1.html", form=form)
+
+@app.route("/register/<token>", methods=["GET", "POST"])
+def register(token):
     single_user = User.query.all()
     if User().isAuthenticated():
         return redirect(url_for("dashboard"))
