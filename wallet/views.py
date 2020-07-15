@@ -77,6 +77,10 @@ class RequestResetForm(FlaskForm):
             raise ValidationError("Invalid email address")
 
 
+class RequestRegisterForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+
+    
 
 class PasswordResetForm(FlaskForm):
     password1 = PasswordField("New Password", validators=[DataRequired(), Length(min=8)])
@@ -229,7 +233,7 @@ def map():
 
 @app.route("/register/", methods=["GET", "POST"])
 def verifyEmail():
-    form = RequestResetForm()
+    form = RequestRegisterForm()
 
     if User().isAuthenticated():
         return redirect(url_for("index"))
