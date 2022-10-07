@@ -9,7 +9,8 @@ class Config(object):
     TESTING = False
     if not os.getenv("FLASK_DEBUG"): 
         SECRET_KEY = config["SECRET_KEY"] 
-        SQLALCHEMY_DATABASE_URI = config["SQLALCHEMY_DATABASE_URI"]
+        #SQLALCHEMY_DATABASE_URI = config["SQLALCHEMY_DATABASE_URI"]
+        SQLALCHEMY_DATABASE_URI = "sqlite:///../sqlite3.db"
         MAIL_SERVER = config["MAIL_SERVER"]
         MAIL_PORT = config["MAIL_PORT"]
         MAIL_USE_SSL = True

@@ -31,7 +31,7 @@
       
       
       
-                                                            <a href="{{ url_for('verifyEmail') }}" class="btn btn-secondary"
+                                                            <a href="{{ url_for('register') }}" class="btn btn-secondary"
                                                                 data-interval="200"
                                                                 data-animation="animated bounceInUp">Register Now</a>
 
@@ -59,7 +59,7 @@
 
 
 
-                                                      <a href="{{ url_for('verifyEmail') }}" class="btn btn-secondary"
+                                                      <a href="{{ url_for('register') }}" class="btn btn-secondary"
                                                           data-interval="200"
                                                           data-animation="animated bounceInUp">Register Now</a>
 
@@ -273,12 +273,12 @@ var cps = {};
                   <div class="row">
                       <div class="col-md-8">
                           <div class="register_section_left">
-                              <h2>Ready to join with Bittrade.com? <br />Register Today.</h2>
+                              <h2>Ready to join with Bitbankhub.com? <br />Register Today.</h2>
                           </div>
                       </div>
                       <div class="col-md-4 d-flex align-items-center">
                           <div class="register_section_right">
-                              <a href="{{ url_for('verifyEmail') }}" class="btn btn-default">Register Now</a>
+                              <a href="{{ url_for('register') }}" class="btn btn-default">Register Now</a>
                           </div>
                       </div>
                   </div>
@@ -373,7 +373,7 @@ var cps = {};
                                               <p>{{deposit.username}}</p>
                                           </div>
                                           <div class="state-by">
-                                              <img src="{{ url_for('get_upload', filename=deposit.cryptocurrency.image_url) }}">
+                                              <img width="40px" src="{{ url_for('get_upload', filename=deposit.cryptocurrency.image_url) }}">
                                           </div>
                                           <div class="invest-amount">
                                               <p>${{deposit.amount}}</p>
@@ -407,7 +407,7 @@ var cps = {};
                                             <p>{{withdrawal.username}}</p>
                                         </div>
                                         <div class="state-by">
-                                            <img src="{{ url_for('get_upload', filename=withdrawal.cryptocurrency.image_url) }}">
+                                            <img width="40px" src="{{ url_for('get_upload', filename=withdrawal.cryptocurrency.image_url) }}">
                                         </div>
                                         <div class="invest-amount">
                                             <p>${{withdrawal.amount}}</p>
@@ -452,7 +452,7 @@ var cps = {};
 
 
 
-                                  <a href="{{ url_for('verifyEmail') }}" class="btn btn-primary">Invest Now</a>
+                                  <a href="{{ url_for('register') }}" class="btn btn-primary">Invest Now</a>
 
 
 

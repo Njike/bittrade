@@ -231,6 +231,7 @@ def map():
     except FileNotFoundError:
         abort(404)
 
+'''
 @app.route("/register/", methods=["GET", "POST"])
 def verifyEmail():
     form = RequestRegisterForm()
@@ -248,14 +249,15 @@ def verifyEmail():
 
 
     return render_template("forgot-password1.html", form=form)
+'''
 
-@app.route("/register/<token>", methods=["GET", "POST"])
-def register(token):
+@app.route("/register/", methods=["GET", "POST"])
+def register():
     single_user = User.query.all()
     if User().isAuthenticated():
         return redirect(url_for("dashboard"))
     form = RegistratonForm()
-    form.email.data = request.args.get("email")
+    #form.email.data = request.args.get("email")
     cryptocurrency = CryptoCurrency.query.all()
 
     

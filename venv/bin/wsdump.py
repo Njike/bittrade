@@ -1,4 +1,4 @@
-#!/home/bittrade/bittrade/venv/bin/python3
+#!/home/bittradeweb/bittrade/venv/bin/python3
 
 import argparse
 import code

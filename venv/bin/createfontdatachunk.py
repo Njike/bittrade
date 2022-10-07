@@ -1,4 +1,4 @@
-#!/home/bittrade/bittrade/venv/bin/python3
+#!/home/bittradeweb/bittrade/venv/bin/python3
 from __future__ import print_function
 import base64
 import os
